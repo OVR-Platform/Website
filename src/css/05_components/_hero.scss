@@ -1,0 +1,15 @@
+.c-hero{
+  color: #fff;
+  height: calc( 100vh + 150px);
+  min-height: 600px;
+  overflow: hidden;
+}
+
+.c-hero_svg-mask{
+  width: 100%;
+  height: auto;
+  position: absolute;
+  z-index: 1;
+  left: 0px;
+  bottom: -50px;
+}
