@@ -1,0 +1,74 @@
+.c-technologies-section{
+    background-color: $ovr_orange;
+    @include cf();
+    height: auto;
+    .o-container{
+        padding-top: 600px;
+        position: relative;
+        .o-half{
+            padding-right: 100px;
+            position: relative;
+        }
+        .c-copy{
+            margin-top: 50px;
+        }
+    }
+}
+.c-technologies-section__hex-bg-1{
+    height: 650px;
+    width: 650px;
+    right: -450px;
+    top: 400px;
+    opacity: 6;
+    z-index: 4;
+
+    .c-hex-svg{
+    // opacity: 0.1;
+    }
+}
+
+.c-technologies-section__hex-bg-2{
+    height: auto;
+    width: 60%;
+    left: 0px;
+    top: 0px;
+    path{
+        fill: $ovr_deep_purple;
+        stroke:$ovr_deep_purple;
+    }
+}
+
+.c-technologies-content{
+    position:relative;
+    z-index: 3;
+}
+
+.c-technologies-section__skewed{
+    position: absolute;
+    width: 140vw;
+    height: 600px;
+    left: -10vw;
+    background: #fff;
+    bottom: -300px;
+    transform: rotate(-15deg);
+    z-index:1;
+    background-color: $ovr_orange;
+}
+
+.c-technologies-hex-svg--container{
+    width: 80vw;
+    left: -20%;
+    top: -150%;
+    z-index: 2;
+    position: absolute;
+}
+
+.c-technologies-hex-svg--img{
+    position: absolute;
+    left: 15%;
+    width: 70%;
+    top: calc( 50% - 100px );
+    height: auto;
+    z-index: 3;
+
+}

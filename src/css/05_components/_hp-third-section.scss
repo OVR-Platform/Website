@@ -1,0 +1,49 @@
+
+
+.c-third-section{
+    height: auto;
+    background-color: $ovr_deep_purple;
+    color: #fff;
+    padding-top: 550px;
+    position: relative;
+    padding-bottom: 0px;
+    @include cf();
+    padding-left: 250px;
+    .o-half{
+      z-index: 2;
+      position: relative;
+    }
+
+  }
+
+  .c-third-section__hex-bg-1{
+    height: 650px;
+    width: 650px;
+    left: -450px;
+    opacity: 1;
+    .c-hex-svg{
+      // opacity: 0.1;
+      z-index: 0;
+    }
+  }
+
+  .c-third-section__hex-bg-2{
+    height: 450px;
+    width: 450px;
+    right: -250px;
+    opacity: 1;
+    z-index: 0;
+  }
+
+  .c-features-button-holder{
+    margin-top: 50px;
+    margin-bottom: 30px;
+    width: 100%;
+    @include clearfix();
+    .c-hex-button{
+      text-transform: unset;
+      margin-right: 20px;
+    }
+  }
+
+

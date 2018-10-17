@@ -29,3 +29,7 @@
 .u-visual-hide {
   @include visual-hide();
 }
+
+body{
+  overflow-x: hidden;
+}

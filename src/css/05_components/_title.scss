@@ -1,0 +1,28 @@
+.c-title{
+  h2{
+    font-weight: 400;
+    line-height: 3.5rem;
+    span{
+      font-weight: bold;
+    }
+  }
+}
+.c-title--secondary{
+  h2{
+    font-size: 2rem;
+    line-height: 2.8rem;
+
+  }
+}
+.c-subtitle{
+  h3{
+    margin-top: 15px;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 30px;
+  }
+}
+.c-copy{
+  max-width: 800px;
+  font-weight: 200;
+}

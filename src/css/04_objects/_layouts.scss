@@ -17,7 +17,18 @@
     width: 95%;
   }
 }
-
+.o-container-rel{
+  position: relative;
+  width: maxw("main");
+  margin: 0 auto;
+  @include clearfix();
+  @include mq-min(bk("large")) {
+    width: maxw("large");
+  }
+  @include mq-max(bk("desk")) {
+    width: 95%;
+  }
+}
 .o-container-flex{
   display: flex;
   justify-content: space-between;
@@ -38,3 +49,13 @@
   @include clearfix();
 }
 
+.o-half{
+  @include col(1/2);
+  float: left;
+}
+
+.js-tab-slider{
+  .c-cell{
+    width: 100%;
+  }
+}

@@ -1,0 +1,45 @@
+.c-ecosystem-section{
+    @include cf();
+    .o-container{
+        position: relative;
+    }
+    position:relative;
+}
+.c-ecosystem-hex-svg--container{
+    position:absolute;
+    width: 100%;
+    left: 0px;
+    z-index: 5;
+    top:0px;
+}
+
+.c-ecosystem-hex-svg{
+    width:100%;
+    fill: #fff;
+    position:absolute;
+    top:0px;
+}
+.c-ecosystem-hex-svg--purple{
+    path{
+        fill: $ovr_deep_purple;
+    }
+    svg{
+        width: 100%;
+        height: 100%;
+    }
+    z-index: 4;
+    width: 120vw;
+    left: -10vw;
+    position: absolute;
+    bottom: -400px;
+}
+.c-ecosystem-section_content-container{
+    margin-top: 400px;
+    width: 100%;
+    text-align:center;
+    z-index: 6;
+    position: relative;
+    .c-title--secondary{
+        color: $ovr_deep_purple;
+    }
+}

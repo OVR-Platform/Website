@@ -70,5 +70,10 @@
     "vinyl-source-stream": "^2.0.0",
     "watchify": "^3.10.0",
     "yargs": "^6.6.0"
+  },
+  "dependencies": {
+    "background-video": "^2.0.1",
+    "flickity": "^2.1.2",
+    "smooth-parallax": "^1.1.2"
   }
 }

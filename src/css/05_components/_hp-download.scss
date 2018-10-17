@@ -1,0 +1,72 @@
+.c-download-section{
+    background-image: linear-gradient(to left top, #2fd7ff, #00c2fa, #00adf3, #0098ea, #0081dd);
+    padding-top: 500px;
+    padding-bottom: 150px;
+
+    .o-container{
+        position: relative;
+        z-index: 4;
+    }
+}
+.c-download-section__hex-bg{
+    width: 80%;
+    left: 10%;
+    height: auto;
+    position: relative;
+    top: 0px;
+    path{
+        fill: #fff;
+    }
+}
+
+.c-download-section__content{
+    text-align: center;
+    padding: 100px;
+    padding-top: 150px;
+    z-index: 3;
+    position: absolute;
+    width: 100%;
+    .c-copy{
+        margin: 200px;
+        margin-top: 40px;
+        margin-bottom: 50px;
+    }
+}
+.c-download-section__buttons-holder{
+    @include cf();
+    img{
+        max-width: auto;
+        max-height: 50px;
+        &:first-child{
+            margin-right: 20px;
+        }
+    }
+}
+
+.c-download-section__subscribe_holder{
+    @include cf();
+    position: relative;
+    margin-top: 40px;
+    svg{
+        width: 500px;
+        position: absolute;
+        left: calc( 50% - 250px );
+        z-index: 3;
+    }
+    input{
+        position: absolute;
+        width: 400px;
+        left: calc( 50% - 200px );
+        top: 10px;
+        height: 70px;
+        border: none;
+        color: #000;
+        z-index: 4;
+        &::placeholder{
+            text-align: center;
+        }
+        &:focus{
+            outline: none;
+        }
+    }
+}
