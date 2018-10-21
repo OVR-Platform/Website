@@ -1,7 +1,12 @@
-import { debounce, $1, each, $ } from './util'
+import { debounce, $1, each, $, listenForms } from './util'
 // import BackgroundVideo from 'background-video'
 import SmoothParallax from 'smooth-parallax'
 import Flickity from 'flickity'
+import { TweenLite, ScrollToPlugin } from 'gsap'
+import Countdown from 'countdown-js'
+import SmoothScroll from 'smooth-scroll'
+
+const body = $1("body")
 
 document.addEventListener('DOMContentLoaded', () => {
   document.documentElement.className = 'js'
@@ -81,7 +86,6 @@ const Application = (() => {
     window.addEventListener("scroll", menuManagerOnScroll, false)
     function menuManagerOnScroll(){
       const hero = $1(".c-hero")
-      const body = $1("body")
       const pageWrap = $1("#page-wrap")
       const heroHeight = hero.offsetHeight;
 
@@ -97,29 +101,52 @@ const Application = (() => {
       } else {
         pageWrap.classList.remove("is-scrolling")
       }
-
-
-      // if ( scrollTop > 0 && !mouseOverMenu ){
-      //   body.classList.add("main-nav--is-idle")
-      // } else {
-      //   body.classList.remove("main-nav--is-idle")
-      // }
-
-      // if (scrollTop > lastScrollTop){
-      //     // downscroll code
-      // } else {
-      //   body.classList.remove("main-nav--is-idle")
-      // }
-      // lastScrollTop = scrollTop;
-
     }
   }
 
+  const countDownManager = () => {
+    // setup end datetime for timer
+    var ten_days = 1000 * 60 * 60 * 24 * 10
+    var end = new Date("12/1/2018")
+    
+    var timer = Countdown.timer(end, function(timeLeft) {
+      document.getElementById("c-countdown_container").innerHTML = "Presale will start in "+timeLeft.days + " days " + timeLeft.hours + " hours " + timeLeft.minutes + " min " + timeLeft.seconds + " sec ";      
+    }, function() {
+      console.log("Countdown Finished!")
+    })
+  }
+
+  const onMobileHamburgerClick = () => {
+    const pageWrap = $1("#hamburger-menu")
+    pageWrap.addEventListener("click", function(){
+      if( body.classList.contains("is_mobile_menu_open") ){
+        body.classList.remove("is_mobile_menu_open")
+      } else {
+        body.classList.add("is_mobile_menu_open")
+      }
+    });
+  }
+
+  
+  
+  const scrollToLink = () => {
+
+    	var scroll = new SmoothScroll('a[href*="#"]', {
+        speed: 500,
+        offset: 100
+      });
+
+
+  }
+
   const init = () => {
+    scrollToLink();
     startParallax();
     initCarousels();
     menuManager();
-    console.log('init');
+    countDownManager();
+    listenForms();
+    onMobileHamburgerClick();
   }
 
   return {

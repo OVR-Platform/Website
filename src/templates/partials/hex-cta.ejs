@@ -1,6 +1,7 @@
 <% if(purple == undefined){ var purple = false}  %>
+<% if(scroll_to == undefined){ var scroll_to = 'no'}  %>
 
-<a class="c-hex-cta <%if (purple == true) { %> c-hex-cta--purple<%}%>" href="#">
+<a class="c-hex-cta <%if (purple == true) { %> c-hex-cta--purple<%}%>" <% if(scroll_to != 'no' ){ %>data-scroll href="#<%- scroll_to %>" <%}%> >
 <%if (purple != true) { %>
 <svg width="63px" height="71px" class="c-hex-svg" viewBox="0 0 63 71" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 49.1 (51147) - http://www.bohemiancoding.com/sketch -->

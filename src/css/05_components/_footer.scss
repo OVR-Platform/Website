@@ -1,0 +1,93 @@
+
+
+.c-footer{
+    @include cf();
+
+    .o-container, .o-half{
+        position: relative;
+    }
+    position:relative;
+    .form-group, .c-title--secondary{
+        z-index: 3;
+        position: relative;
+    }
+    .c-title--secondary{
+            padding-right: 50px;
+    }
+}
+
+.c-footer-hex-svg--container{
+    display: block;
+
+}
+
+.c-footer-hex-svg{
+    width:100%;
+
+}
+.c-footer-hex-svg--container{
+    position:absolute;
+    top: -10%;
+}
+.c-footer-hex-svg--form__svg{
+        position:absolute;
+        top: -150px;
+}
+
+.c-footer-hex-svg--purple{
+    path{
+        // fill: $ovr_deep_purple;
+    }
+    svg{
+        width: 100%;
+        height: 100%;
+    }
+    z-index: 4;
+    width: 120vw;
+    left: -10vw;
+    position: absolute;
+    top: 0px;
+}
+
+.c-footer__content{
+    position:relative;
+    width: 100%;
+    left: 0px;
+    z-index: 5;
+    margin-top: 300px;
+    padding-bottom: 100px;
+    color: #fff;
+    background-color: $ovr_deep_purple;
+
+}
+
+.c-contact-info{
+    margin-top: 50px;
+    a{
+        margin-top: 20px;
+        display: block;
+        color: #fff;
+        @include cf();
+        svg{
+            max-width: 20px;
+            margin-right: 20px;
+            position: relative;
+            top: 4px;
+        }
+    }
+}
+
+
+.c-contact--holder{
+    color: $ovr_deep_purple;
+}
+.c-contact-form{
+    margin-top:0px;
+}
+
+
+.c-contact--content{
+    padding: 150px;
+    height: 500px;
+    padding-top: 0px;
+}

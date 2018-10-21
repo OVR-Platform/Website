@@ -1,3 +1,5 @@
+import reqwest from 'reqwest'
+
 export function debounce(func, wait, immediate) {
   var timeout
   return function() {
@@ -87,4 +89,81 @@ export function getClosest(elem, selector) {
 
 export function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
+
+
+
+var couldSendEmail = true;
+var submitForm = debounce(function(form) {
+  if(couldSendEmail == false){
+    return false;
+  }
+
+  couldSendEmail = false;
+  var url = form.getAttribute("action");
+  $1("body").classList.add("is_form--loading");
+  // console.log('submitForm','mail request');
+  reqwest({
+    url: url,
+    method: 'post',
+    data: { name: form.querySelector('.name').value,
+            email: form.querySelector('.email').value,
+            ogg: form.querySelector('.ogg').value,
+            msg: form.querySelector('.msg').value },
+    success: function (resp) {
+
+      setTimeout(function(){
+        if( resp == "false"){
+          $1("body").classList.remove("is_form--loading");
+          $1("body").classList.add("is_form--error");
+        } else {
+          $1("body").classList.remove("is_form--loading");
+          $1("body").classList.add("is_form--success");
+        }
+
+
+        setTimeout(function(){
+          $1("body").classList.remove("is_form--success");
+          $1("body").classList.remove("is_form--error");
+          $1("body").classList.remove("is_form--loading");
+          form.querySelector('.name').value = "";
+          form.querySelector('.email').value = "";
+          form.querySelector('.msg').value = "";
+          couldSendEmail = true;
+        }, 3000)
+      }, 500)
+    }
+  })
+}, 4000, true);
+
+export function listenForms(){
+  const forms = $('.c-general-contact-form')
+  // console.log('listenForms','listenForms')
+  // Forms
+
+  each(forms, (i, form) => {
+
+    if(!form.classList.contains("is_form--listening")){
+      // console.log('form_di_invio_appeso_per', form)
+      form.addEventListener("submit", function(e) { e.preventDefault(); submitForm(form); }, true)
+      form.classList.add("is_form--listening");
+    }
+  })
+
+    each($('.c-contact-form'), (i, cf) => {
+    cf.querySelector(".privacy").addEventListener("change", function(){
+      if( this.checked ){
+        cf.querySelector(".submit-button").classList.remove("disabled-2");
+      } else {
+        cf.querySelector(".submit-button").classList.add("disabled-2");
+      }
+    })
+    // cf.querySelector(".disabled-2").addEventListener("click", function(){
+    //   cf.querySelector(".privacy-holder").classList.add("tada");
+    //   setTimeout(function(){
+    //     cf.querySelector(".privacy-holder").classList.add("tada");
+    //   }, 300);
+    // })
+  })
 }

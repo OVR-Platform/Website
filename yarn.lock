@@ -96,6 +96,10 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
+animated-scroll-to@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/animated-scroll-to/-/animated-scroll-to-1.2.2.tgz#d6688e72f3ecec1a296fc2b36fe29290e7fff694"
+
 ansi-colors@^1.0.1:
   version "1.1.0"
   resolved "http://registry.npmjs.org/ansi-colors/-/ansi-colors-1.1.0.tgz#6374b4dd5d4718ff3ce27a671a3b1cad077132a9"
@@ -1461,6 +1465,10 @@ core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
+countdown-js@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/countdown-js/-/countdown-js-1.0.2.tgz#2a2ef6118de07f06b972b404edb324578044c835"
+
 create-ecdh@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/create-ecdh/-/create-ecdh-4.0.0.tgz#888c723596cdf7612f6498233eebd7a35301737d"
@@ -2803,6 +2811,10 @@ graceful-fs@~1.2.0:
 "graceful-readlink@>= 1.0.0":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
+
+gsap@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/gsap/-/gsap-2.0.2.tgz#c82bde9a078f7922869fc2eb5aaecfa7592d1c2b"
 
 gulp-autoprefixer@^3.1.1:
   version "3.1.1"
@@ -5410,6 +5422,10 @@ requires-port@1.x.x:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
 
+reqwest@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/reqwest/-/reqwest-2.0.5.tgz#00fb15ac4918c419ca82b43f24c78882e66039a1"
+
 resolve-dir@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/resolve-dir/-/resolve-dir-0.1.1.tgz#b219259a5602fac5c5c496ad894a6e8cc430261e"
@@ -5656,6 +5672,10 @@ slice-ansi@0.0.4:
 smooth-parallax@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/smooth-parallax/-/smooth-parallax-1.1.2.tgz#02da4c718b74479a1228cd3b860abc167f9f8919"
+
+smooth-scroll@^14.2.1:
+  version "14.2.1"
+  resolved "https://registry.yarnpkg.com/smooth-scroll/-/smooth-scroll-14.2.1.tgz#2883128569d0eb32fc63ef34d91a4290f43c7515"
 
 sntp@1.x.x:
   version "1.0.9"

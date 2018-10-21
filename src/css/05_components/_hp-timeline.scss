@@ -1,20 +1,23 @@
 .c-timeline-section{
     padding-top: 100px;
-    padding-bottom: 100px;
+    padding-bottom: 150px;
+
     @include cf();
     background-color: #fff;
     .c-title{
         text-align: center;
     }
 }
-
+.c-hex-team__holder{
+    @include cf();
+}
 
 
 
 .c-stories-dots__container{
   @include cf();
   z-index: 100;
-  top: 125px;
+  top: 110px;
   width: 100%;
   position: absolute!important;
   .c-services-dot__dot{
@@ -42,31 +45,31 @@
   transition: all .25 ease-in-out;
 
   &.is-selected{
-    transform: translateY(20px);
     .c-services-dot__dot{
-      transform: translateY(-30px) translateX(0px) scale(2.5);
+      transform: translateY(0px) translateX(0px) scale(2.5);
       img{
         transform: rotate(0deg) translateY(0px);
         opacity: 1;
         width: 130px;
       }
-    }
 
+    }
     .c-services-dot__copy-container{
       max-height: 500px;
       overflow: visible;
     }
-
     .c-services-dot__copy{
       height: auto;
       opacity: 1;
-      transform: translateX(0px) translateY(0px);
+      transform: translateX(0px) translateY(20px);
     }
-
-    .c-services-dot__cta{
+    .c-services-dot__cta, .c-services-dot__title{
       height: auto;
       opacity: 1;
-      transform: translateX(0px) translateY(0px);
+      transform: translateX(0px) translateY(20px);
+    }
+    .c-hex-internal-svg{
+      transform: scale(1);
     }
   }
 }
@@ -80,74 +83,31 @@
 
 }
 
+.c-services-dot__name{
+  text-align:center;
+  position: absolute;
+  width: 100%;
+  top: -120px;
+  transition: all 350ms ease-in-out;
+  .is-selected &{
+      top: -160px;
+  }
+}
+
 .c-story__line,.c-services__canvas{
-  height: 550px;
+  height: 300px;
   width:100%;
   position: relative;
   top: 0px;
-}
+  .c-story__single-line{
+      position: absolute;
+      height: 5px;
+      width: 150%;
+      left: -25%;
+      top: 39%;
+        background-image: linear-gradient(to left, #2fd7ff, #00c2fa, #00adf3, #0098ea, #0081dd);
 
-#wave, #wave02, #wave03{
-  position: absolute;
-  width: 125%;
-  left: -5%;
-  height: auto;
-  z-index: 1;
-  opacity: 0.7;
-}
-
-
-.c-story__waves{
-  height: 400px;
-  margin-top: 100px;
-  width:120%;
-  left: -10%;
-  overflow: hidden;
-  position: relative;
-  top: 0px;
-}
-
-
-@keyframes myOrbit {
-  from { transform: rotate(0deg) translateX(1px) rotate(0deg); }
-  to   { transform: rotate(360deg) translateX(1px) rotate(-360deg); }
-}
-
-@keyframes myOrbit2 {
-  from { transform: rotate(360deg) translateX(-1px) rotate(-360deg); }
-  to   { transform: rotate(0deg) translateX(-1px) rotate(0deg); }
-}
-
-@keyframes waveOrbit2 {
-  0% { transform: translateX(0px) rotate(0deg);}
-  50% { transform: translateX(-5px) rotate(1deg);}
-  100% { transform: translateX(0px) rotate(0deg);}
-}
-
-@keyframes waveOrbit {
-  0% { transform: translateX(0px) rotate(0deg);}
-  50% { transform: translateX(10px) rotate(0deg);}
-  100% { transform: translateX(0px) rotate(0deg);}
-}
-
-@keyframes waveOrbit3 {
-  0% { transform: translateX(0px) rotate(0deg);}
-  50% { transform: translateX(15px) rotate(-1deg);}
-  100% { transform: translateX(0px) rotate(0deg);}
-}
-
-
-.a-wave-orbit-2{
-  animation: waveOrbit2 2.5s linear infinite;
-}
-
-.a-wave-orbit-1{
-  animation: waveOrbit 2.5s linear infinite;
-}
-
-.a-wave-orbit-3{
-  animation: waveOrbit3 4s linear infinite;
-  top: 10px;
+  }
 }
 
 
@@ -156,14 +116,30 @@
 .c-services-dot__dot{
   width: 40px;
   height: 40px;
-  background-color: #000;
   position: relative;
   left: calc( 50% - 20px );
   top: -10px;
   text-align: center;
   transition: all .25s ease-in-out;
   line-height: 50px;
-
+  .c-hex-svg{
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .c-hex-internal-svg{
+    width: 60%;
+    height: 60%;
+    margin: 0 auto;
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    transition: all .25s ease-in-out;
+    transform: scale(0);
+      fill: #fff;
+      path, g{
+      fill: #fff;
+    }
+  }
 }
 
 .c-services-dots__container{
@@ -178,6 +154,8 @@
 }
 
 .c-services-dot__title{
+    transform: translateX(0px) translateY(0px);
+    transition: all .25s ease-in-out;
   h3{
     text-align: center;
     font-weight: 600;
@@ -229,12 +207,11 @@
 
 @media screen and ( max-width: 1000px ) {
   .c-story__line, .c-services__canvas {
-    height: 550px;
-    width: 130%;
+    height: 300px;
     overflow: hidden;
     top: 0px;
-    left: -100px;
-    transform: rotate(10deg);
+    left: -50px;
+    width: 110%;    
   }
 
   .c-stories-dots__container{
@@ -248,15 +225,16 @@
 @media screen and ( max-width: 500px ) {
   .c-story__line, .c-services__canvas {
     height: 400px;
-    width: 130%;
     overflow: hidden;
-    top: 25px;
-    left: -50px;
-    transform: rotate(10deg);
+    top: -50px;
+    left: -10%;
+    width: 120%;
   }
 
   .c-services-dot__container{
-    @include column(1/1);
+    @include span(1/1);
+    margin: 0px;
+    padding: 0px;
   }
 
 

@@ -19,7 +19,27 @@
 
   <body itemscope itemtype="http://schema.org/WebPage">
     <div id="page-wrap">
-
+      <div class="c-mobile-nav__overlay">
+        <div class="c-mobile-nav__container-main">
+          <ul>
+            <li>
+              <a href="#">FAQ</a>
+            </li>
+            <li>
+              <a href="#">TokenSale</a>
+            </li>
+            <li>
+              <a href="#">Bounty</a>
+            </li>
+            <li>
+              <a href="#">WhitePaper</a>
+            </li>
+            <li>
+              <a href="#">Telegram</a>
+            </li>
+          </ul>
+        </div>
+      </div>
       <div class="c-main-nav">
         <div class="o-container">
           <div class="c-main-nav_logo">
@@ -44,10 +64,19 @@
                 </li>
               </ul>
           </div>
-          <div class="c-main-nav_buttons">
+          <div class="c-main-nav_buttons" style="display:none;">
               <%- include('../partials/hex-button', {title: "Singup", big: false, blue: true, filled: true}) -%>
               <%- include('../partials/hex-button', {title: "Log in", big: false, blue: true, outline: false}) -%>
           </div>
+            <div id="hamburger-menu">
+                <svg id="hamburger" xmlns="http://www.w3.org/2000/svg" width="30" height="30" preserveAspectratio="xMinYMin">
+                    <g class="lines">
+                    <line class="firstline" x1="0" y1="2" x2="25" y2="2"/>
+                    <line class="lastline" x1="0" y1="18" x2="25" y2="18"/>
+                    <line class="middleline" x1="0" y1="10" x2="25" y2="10"/>
+                    </g>
+                </svg>
+            </div>
         </div>
       </div>
 

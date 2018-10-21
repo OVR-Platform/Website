@@ -1,0 +1,218 @@
+
+
+.c-contact-form--content, .c-contact-form--loader, .c-contact-form--thanks-message, .c-contact-form--error-message{
+  transition: all 0.33s ease-in-out;
+}
+
+
+.c-contact-form{
+  margin-top: 10px;
+  max-width: 600px;
+  position: relative;
+  .privacy{
+    float: left;
+    width: 20px!important;
+    margin-top:4px!important;
+  }
+  a{
+    color:#fff;
+  }
+  input, textarea{
+    padding: 10px;
+    margin-top: 10px;
+    border: 2px solid $ovr_deep_purple;
+    width: 500px;
+    @include cf();
+    max-width: 100%;
+  }
+  input[type="submit"]{
+    background-color: $ovr_deep_purple;
+
+    font-weight: bold;
+    color: $white;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 200px;
+    float: left;
+  }
+}
+
+.c-contact-form {
+  position: relative;
+}
+
+.c-contact-form--thanks-message,.c-contact-form--error-message, .c-contact-form--loader {
+  opacity: 0;
+  position: absolute;
+  top:0px;
+  width: 100%;
+  pointer-events: none;
+}
+
+.c-contact-form--content, .c-contact-form--loader, .c-contact-form--thanks-message{
+  transition: all 0.33s ease-in-out;
+}
+
+.c-contact-form--thanks-message, .c-contact-form--error-message{
+  h3{
+    margin-top: 100px;
+  }
+}
+
+.is_form--loading{
+  .c-contact-form--content{
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .c-contact-form--loader {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+
+.is_form--success {
+
+  .c-contact-form--loader, .c-contact-form--content{
+    opacity: 0;
+    visibility: hidden;
+    // transition-delay: 300ms;
+
+  }
+  // .c-contact-form--loader{
+  //   margin-top: 100px;
+  // }
+  .c-contact-form--thanks-message {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 300ms;
+  }
+}
+
+.is_form--error {
+
+  .c-contact-form--loader, .c-contact-form--content{
+    opacity: 0;
+    visibility: hidden;
+    // transition-delay: 300ms;
+
+  }
+  // .c-contact-form--loader{
+  //   margin-top: 100px;
+  // }
+  .c-contact-form--error-message {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 300ms;
+  }
+}
+
+.c-contact-form--error-message {
+  h3{
+    color: #fff;
+    background-color: $ovr_orange;
+    padding: 5px 30px;
+  }
+}
+
+.privacy-holder{
+    font-size: 8px;
+    line-height: 12px;
+}
+
+
+
+
+  .c-contact-form, .wpcf7{
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+
+    .c-f{
+      margin-top: 18px;
+      &:first-child{
+        margin-top: 0px;
+      }
+    }
+    input, textarea{
+      padding: 10px;
+      margin-top: 0px;
+      border: 1px solid $ovr_deep_purple;
+      background-color: $white;
+        padding: 5px;
+        font-size: 16px;
+        margin-top: 0px;
+
+      @include cf();
+      width: 100%;
+      color: #fff;
+      &::placeholder{
+        color: rgba(0,0,0,0.4);
+      }
+      &:focus{
+        outline:none;
+      }
+    }
+    .half{
+      @include col(1/2, $cycle: 2);
+      float: left;
+    }
+
+    input[type="submit"]{
+      background-color: $white;
+    
+      font-weight: bold;
+      background-color: $ovr_purple;
+      color: $white;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      width: 200px;
+      margin-left: calc( 50% - 100px );
+      transition: all 0.3s ease-in-out;
+
+      &.disabled-1, &.disabled-2{
+        pointer-events: none;
+        background-color: grey;
+        cursor: not-allowed;
+        border: 2px solid $white;
+        color: $white;
+      }
+
+      &:hover{
+        background-color: $white;
+        color: $ovr_deep_purple;
+      }
+    }
+  }
+
+  #a-contant-form_contatti .c-contact-form{
+    max-width: 500px;
+    input, textarea{
+    color: #000;
+    }
+
+    input[type="submit"]{
+      color: #fff;
+    }
+
+    input[type="submit"]:not(.disabled):hover{
+      color: $ovr_deep_purple;
+    }
+
+    .o-ball__loader {
+      margin-top: 200px;
+    }
+    // .o-ball__loader span::before,
+    // .o-ball__loader span::after {
+    //   border: 2px solid $ovr_purple!important;
+    // }
+  }
+
+  #a-contant-form_contatto{
+    .o-ball__loader span::before, .o-ball__loader span::after{
+      border: 2px solid $white!important;
+    }
+  }

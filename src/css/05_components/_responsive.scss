@@ -1,0 +1,288 @@
+@media screen and ( max-width: 1110px ){
+    .c-main-nav_menu, .c-main-nav_buttons{
+        display:none;
+    }
+  .c-main-nav{
+    background-color: #fff;
+    li a, .c-hex-button--no-outline{
+      color: $ovr_deep_purple;
+    }
+    box-shadow: -1px -3px 78px -14px rgba(87,87,87,1);
+  }
+  .c-main-nav_buttons{
+    margin-top: 20px;
+  }
+  .c-main-nav_menu{
+    margin-top: 32px;
+  }
+  .c-main-nav_logo{
+    margin-top: 15px;
+    height: 50px;
+    margin-bottom: 15px;
+  }
+
+}
+
+@media screen and ( min-width: 1111px ){
+    #hamburger-menu, .c-mobile-nav__overlay{
+        display:none;
+    }
+}
+
+@media screen and ( max-width: 768px ){
+
+    .c-features-button-holder .c-hex-button{
+        margin-top: 20px;
+    }
+    .c-ecosystem-section_content-container {
+        margin-top: 450px;
+    }
+
+    .c-technologies-hex-svg--container,.c-technologies-section__hex-bg-1{
+        display:none;
+    }
+
+    .c-technologies-section .o-container .o-half{
+        padding-right: 0px;
+    }
+
+    .c-technologies-section__hex-bg-2 {
+        height: auto;
+        width: 80%;
+        left: 0px;
+        float: right;
+        top: 0px;
+    }
+
+    .c-technologies-section__skewed {
+        left: -19vw;
+    }
+    
+    .c-download-section__content .c-copy, .c-technologies-section .o-container .c-copy{
+        margin: 0px;
+        margin-bottom: 20px;
+    }
+    .c-download-section__content {
+        padding-top: 150px;
+    }
+    .c-download-section__subscribe_holder svg, .c-download-section__subscribe_holder input{
+        width: 50%;
+        left: 25%;
+        z-index: 3;
+    }
+    .c-download-section__subscribe_holder input{
+        font-size:12px;
+        z-index: 4;
+    }
+    .c-contact--content{
+        padding: 50px;
+        height: 500px;
+        padding-top: 0px;
+        position: relative;
+        top: 0px;
+    }
+    .c-footer-hex-svg--form__svg {
+        position: absolute;
+        top: 0px;
+        transform: scale(1.5) translateY(-20px);
+    }
+}
+
+@media screen and (max-width: 600px){
+    .c-fixed-countdown {
+        width: 100%;
+        height: 30px;
+        font-size: 11px;
+        background-color: #1D0433;
+        line-height: 30px;
+        position: fixed;
+        bottom: 0px;
+        z-index: 9999;
+        color: #fff;
+        text-align: center;
+    }
+    .o-half{
+        @include column(1/1);
+    }
+    .c-hero_content{
+        padding-left: 0px;
+    }
+    .c-title h2 {
+        font-weight: 400;
+        line-height: 2rem;
+        br{
+            display: none;
+        }
+    }
+    .c-title--secondary{
+        h2 {
+            font-weight: 400;
+            line-height: 2rem;
+            font-size: 22px;
+        }
+    }
+    .c-subtitle h3 {
+        margin-top: 15px;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 22px;
+    }
+    .c-hero__scrolldown{
+        opacity: 0;
+        pointer-events:none;
+    }
+    .c-hero_buttons{
+        @include cf();
+            
+        .c-hex-button--big {
+            margin-left: calc( 50% - 75px );
+            &:nth-child(2){
+                margin-top: 10px;
+            }
+        }
+    }
+    .c-hero{
+        height: 100vh;
+    }
+    .c-hero_svg-mask {
+        bottom: -13px;
+    }
+    .c-second-section{
+        padding-top: 50px;
+    }
+    .c-second-section__hex-bg-1, .c-second-section__hex-bg-2, .c-ecosystem-hex-svg{
+        display: none;
+    }
+    .c-second-section .c-copy {
+        margin-top: 40px;
+    }
+    .c-hex-cta {
+        margin-top: 40px;
+    }
+    .c-second-section__skewed{
+        bottom: -100px;
+    }
+    .c-third-section__hex-bg-1{
+        height: 450px;
+        width: 450px;
+        left: -380px;
+        opacity: 0.3;
+
+    }
+    .c-third-section__hex-bg-2 {
+        height: 250px;
+        width: 250px;
+        right: -150px;
+        opacity: 0.3;
+        z-index: 0;
+        top: 00px;
+    }
+    .c-third-section{
+        top: 0px;
+        padding-left: 5px;
+        padding-top: 250px;
+    }
+    
+
+    .c-features-button-holder {
+        
+        margin-top: 10px;
+        margin-bottom: 30px;
+        width: 100%;
+        .c-hex-button--big {
+            margin-left: 0px;
+            clear: both;
+            &:nth-child(2), &:nth-child(3){
+                margin-top: 10px;
+            }
+        }
+    }
+
+    .c-advisor-section .c-title {
+        text-align: center;
+        padding-bottom: 20px;
+    }
+    .hex-grid a.-hex{
+        margin-bottom: 80px;
+    }
+    .-hex.-hidden-hex, .c-download-section__subscribe_holder svg{
+        display: none!important;
+    }
+    
+    .c-team-section{
+        padding-bottom: 20px;
+    }
+    .c-advisor-section{
+        padding-top: 20px;
+    }
+    .c-footer__content {
+        margin-top: 50px;
+    }
+    .c-contact--holder{
+        margin-top: 200px;
+    }
+    .c-download-section__content{
+        padding: 0px;
+    }
+    .c-technologies-section__skewed{
+        bottom: -100px;
+        left: -33%;
+    }
+    .c-download-section{
+        padding-top: 250px;
+    }
+
+    .c-download-section__content{
+        position: inherit;
+            color: #fff;
+
+    }
+    .c-download-section__hex-bg{
+        display: none;
+    }
+    .-hidden-hex{
+        display: none;
+    }
+    .c-team-section .c-title {
+        text-align: center;
+        padding-bottom: 20px;
+    }
+    .c-timeline-section{
+        padding-bottom: 0px;
+    }
+    .c-download-section__subscribe_holder input {
+        position: absolute;
+        width: 300px;
+        left: calc( 50% - 150px);
+        height: 35px;
+        line-height: 35px;
+    }
+    .c-technologies-section .o-container{
+        padding-top: 0px;
+    }
+    .c-technologies-section__hex-bg-2{
+        display: none;
+    }
+    .c-ecosystem-section_content-container {
+        margin-top: 20%;
+    }
+    .c-technologies-section__skewed {
+        position: absolute;
+        width: 140vw;
+        height: 300px;
+        background: #fff;
+    }
+    .c-technologies-section{
+        background: #fff;
+    }
+    .c-technologies-content{
+        margin-top: 180px;
+    }
+}
+
+
+    .c-hex-button--filled.c-hex-button--blue .c-hex-svg path, .c-services-dot__dot .c-hex-svg path, .c-services-dot__dot .c-hex-svg path, .c-hero__scrolldown svg.c-hex-svg path{
+        fill: url('#light-blue-gradient')!important;
+        // fill: linear-gradient(to left top, #2fd7ff, #00c2fa, #00adf3, #0098ea, #0081dd);
+
+    }

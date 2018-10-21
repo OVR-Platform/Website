@@ -4,6 +4,7 @@
         position: relative;
     }
     position:relative;
+    background-color: $ovr_deep_purple;
 }
 .c-ecosystem-hex-svg--container{
     position:absolute;
@@ -34,12 +35,15 @@
     bottom: -400px;
 }
 .c-ecosystem-section_content-container{
-    margin-top: 400px;
+    margin-top: 300px;
     width: 100%;
     text-align:center;
     z-index: 6;
     position: relative;
     .c-title--secondary{
         color: $ovr_deep_purple;
+    }
+    img{
+        width: 80%;
     }
 }

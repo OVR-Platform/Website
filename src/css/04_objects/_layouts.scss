@@ -2,6 +2,7 @@
 
 #page-wrap {
   width: 100%;
+  overflow: hidden;
   min-height: 100%;
   @include clearfix();
 }

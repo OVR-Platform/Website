@@ -72,8 +72,13 @@
     "yargs": "^6.6.0"
   },
   "dependencies": {
+    "animated-scroll-to": "^1.2.2",
     "background-video": "^2.0.1",
+    "countdown-js": "^1.0.2",
     "flickity": "^2.1.2",
-    "smooth-parallax": "^1.1.2"
+    "gsap": "^2.0.2",
+    "reqwest": "^2.0.5",
+    "smooth-parallax": "^1.1.2",
+    "smooth-scroll": "^14.2.1"
   }
 }
