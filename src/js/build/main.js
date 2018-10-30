@@ -146,7 +146,6 @@ const Application = (() => {
     countDownManager();
     listenForms();
     onMobileHamburgerClick();
-    mailchimps();
   }
 
   return {

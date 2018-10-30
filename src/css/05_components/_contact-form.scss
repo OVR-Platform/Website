@@ -20,10 +20,17 @@
   input, textarea{
     padding: 10px;
     margin-top: 10px;
-    border: 2px solid $ovr_deep_purple;
     width: 500px;
     @include cf();
     max-width: 100%;
+
+    text-align: left;
+    border: none;
+    color: #000;
+    z-index: 4;
+    margin: 0 auto;
+    border-bottom: 1.5px solid $ovr_deep_purple;
+    font-weight: 200;
   }
   input[type="submit"]{
     background-color: $ovr_deep_purple;
@@ -57,6 +64,8 @@
 .c-contact-form--thanks-message, .c-contact-form--error-message{
   h3{
     margin-top: 100px;
+    font-size: 20px;
+    font-weight: 200;
   }
 }
 
@@ -136,10 +145,21 @@
         margin-top: 0px;
       }
     }
+
+    .c-hex-svg path{
+      max-height: 100%;
+      stroke: #000;
+      stroke-width: 2px;
+  }
+
+  .c-hex-button{
+      color: #000!important;
+      left: calc( 50% - 62px );
+      top: 20px;
+  }
     input, textarea{
       padding: 10px;
       margin-top: 0px;
-      border: 1px solid $ovr_deep_purple;
       background-color: $white;
         padding: 5px;
         font-size: 16px;
@@ -160,36 +180,19 @@
       float: left;
     }
 
-    input[type="submit"]{
-      background-color: $white;
-    
-      font-weight: bold;
-      background-color: $ovr_purple;
-      color: $white;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      width: 200px;
-      margin-left: calc( 50% - 100px );
-      transition: all 0.3s ease-in-out;
-
-      &.disabled-1, &.disabled-2{
-        pointer-events: none;
-        background-color: grey;
-        cursor: not-allowed;
-        border: 2px solid $white;
-        color: $white;
-      }
-
-      &:hover{
-        background-color: $white;
-        color: $ovr_deep_purple;
-      }
+    .c-hex-button_svg{
+      z-index: 0;
+    }
+    .hidden-submit{
+      position: absolute;
+      height: 60px;
+      opacity: 0;
     }
   }
 
   #a-contant-form_contatti .c-contact-form{
-    max-width: 500px;
+    overflow: visible;
+
     input, textarea{
     color: #000;
     }
@@ -215,4 +218,13 @@
     .o-ball__loader span::before, .o-ball__loader span::after{
       border: 2px solid $white!important;
     }
+  }
+
+
+  .disabled-1, .disabled-2{
+    opacity: 0.2;
+    pointer-events: none;
+  }
+  .submit-button{
+    @include cf();
   }

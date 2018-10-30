@@ -105,14 +105,13 @@ var submitForm = debounce(function(form) {
   $1("body").classList.add("is_form--loading");
   // console.log('submitForm','mail request');
   reqwest({
-    url: url,
+    url: '/mailer/mailer.php',
     method: 'post',
     data: { name: form.querySelector('.name').value,
             email: form.querySelector('.email').value,
-            ogg: form.querySelector('.ogg').value,
             msg: form.querySelector('.msg').value },
     success: function (resp) {
-
+      console.log(resp);
       setTimeout(function(){
         if( resp == "false"){
           $1("body").classList.remove("is_form--loading");
@@ -146,7 +145,7 @@ export function listenForms(){
 
     if(!form.classList.contains("is_form--listening")){
       // console.log('form_di_invio_appeso_per', form)
-      form.addEventListener("submit", function(e) { e.preventDefault(); submitForm(form); }, true)
+      form.addEventListener("submit", function(e) { e.preventDefault(); console.log('ferma'); submitForm(form); }, true)
       form.classList.add("is_form--listening");
     }
   })
