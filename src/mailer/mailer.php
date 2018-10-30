@@ -35,7 +35,7 @@ try {
     // $mail->addAddress('federica.dalcin@elifriulia.it', 'Federica Elifriulia');     // Add a recipient
     // $mail->addReplyTo('eventi@elifriulia.it', 'No Reply');
     // $mail->AddBCC('dalciosan@gmail.com', 'Dalcio');
-    $mail->addAddress('dalciosan@gmail.com', 'Dalcio');     // Add a recipient
+    $mail->addAddress('info@ovr.ai', 'OVR');     // Add a recipient
 
 
     //Content
