@@ -51,22 +51,27 @@
         width: 500px;
         position: absolute;
         left: calc( 50% - 250px );
-        z-index: 3;
+        z-index: 2;
+        top:0px;
     }
-    input{
-        position: absolute;
+    input[type=email]{
+       position: relative;
+       text-align: center;
         width: 400px;
-        left: calc( 50% - 200px );
         top: 10px;
         height: 70px;
         border: none;
         color: #000;
         z-index: 4;
+        margin: 0 auto;
         &::placeholder{
             text-align: center;
         }
         &:focus{
             outline: none;
         }
+    }
+    input[type=submit]{
+      margin-top: 40px;
     }
 }
