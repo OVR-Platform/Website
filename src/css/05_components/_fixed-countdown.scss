@@ -2,7 +2,6 @@
     width: 100%;
     height: 50px;
     font-size: 14px;
-    background-color: $ovr_deep_purple;
     line-height: 50px;
     position: fixed;
     bottom: 0px;
@@ -12,9 +11,30 @@
         float: right;
 
     }
-
     span{
         margin-right: 20px;
+    }
+    .o-container{
+      background-color: $ovr_deep_purple;
+      position: relative;
+    }
+    .c-curved{
+      position: absolute;
+    }
+    .c-curved-r{
+      right: -81px;
+      max-height: 50px;
+      max-width: 82px;
+      top: 0px;
+    }
+    .c-curved-l{
+      left: -81px;
+      max-height: 50px;
+      max-width: 82px;
+      top: 0px;
+    }
+    .c-hex-button_svg{
+      z-index:0;
     }
 }
 
