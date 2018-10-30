@@ -1292,7 +1292,8 @@ video {
 
 .c-ecosystem-section_content-container {
   margin-top: 300px;
-  width: 100%;
+  width: 90%;
+  left: 5%;
   text-align: center;
   z-index: 6;
   position: relative; }
@@ -1369,11 +1370,18 @@ video {
 
 .c-download-section {
   background-image: linear-gradient(to left top, #2fd7ff, #00c2fa, #00adf3, #0098ea, #0081dd);
-  padding-top: 500px;
+  padding-top: 450px;
   padding-bottom: 150px; }
   .c-download-section .o-container {
     position: relative;
     z-index: 4; }
+  .c-download-section .o-half {
+    position: relative; }
+  .c-download-section .c-title--secondary h2 {
+    font-size: 1.5rem;
+    line-height: 2.2rem;
+    padding-left: 40px;
+    padding-right: 40px; }
 
 .c-download-section__hex-bg {
   width: 80%;
@@ -1386,13 +1394,12 @@ video {
 
 .c-download-section__content {
   text-align: center;
-  padding: 100px;
-  padding-top: 50px;
   z-index: 3;
   position: absolute;
-  width: 100%; }
+  width: 100%;
+  padding: 24%;
+  padding-top: 20px; }
   .c-download-section__content .c-copy {
-    margin: 200px;
     margin-top: 20px;
     margin-bottom: 20px; }
 
@@ -1405,35 +1412,41 @@ video {
     clear: both; }
   .c-download-section__buttons-holder img {
     max-width: auto;
-    max-height: 50px; }
+    max-height: 35px;
+    margin-bottom: 10px; }
     .c-download-section__buttons-holder img:first-child {
       margin-right: 20px; }
+
+.o-mvp-half {
+  margin-top: 200px; }
 
 .c-download-section__subscribe_holder {
   *zoom: 1;
   position: relative;
-  margin-top: 40px; }
+  margin-top: 20px; }
   .c-download-section__subscribe_holder:before, .c-download-section__subscribe_holder:after {
     content: '';
     display: table; }
   .c-download-section__subscribe_holder:after {
     clear: both; }
-  .c-download-section__subscribe_holder svg {
-    width: 500px;
-    position: absolute;
-    left: calc( 50% - 250px);
-    z-index: 2;
-    top: 0px; }
+  .c-download-section__subscribe_holder .c-hex-svg path {
+    max-height: 100%;
+    stroke: #000;
+    stroke-width: 2px; }
+  .c-download-section__subscribe_holder .c-hex-button {
+    color: #000 !important;
+    left: calc( 50% - 62px);
+    top: 20px; }
   .c-download-section__subscribe_holder input[type=email] {
-    position: relative;
     text-align: center;
-    width: 400px;
-    top: 10px;
-    height: 70px;
+    width: 60%;
     border: none;
     color: #000;
     z-index: 4;
-    margin: 0 auto; }
+    margin: 0 auto;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1.5px solid #1D0433; }
     .c-download-section__subscribe_holder input[type=email]::-webkit-input-placeholder {
       text-align: center; }
     .c-download-section__subscribe_holder input[type=email]:-ms-input-placeholder {
@@ -1443,7 +1456,25 @@ video {
     .c-download-section__subscribe_holder input[type=email]:focus {
       outline: none; }
   .c-download-section__subscribe_holder input[type=submit] {
-    margin-top: 40px; }
+    margin-top: 17px;
+    left: 95px;
+    position: absolute;
+    width: 108px;
+    opacity: 0;
+    height: 50px; }
+  .c-download-section__subscribe_holder .clear {
+    *zoom: 1; }
+    .c-download-section__subscribe_holder .clear:before, .c-download-section__subscribe_holder .clear:after {
+      content: '';
+      display: table; }
+    .c-download-section__subscribe_holder .clear:after {
+      clear: both; }
+    .c-download-section__subscribe_holder .clear:hover .c-hex-svg path {
+      fill: #f4f4f4; }
+  .c-download-section__subscribe_holder #mc_embed_signup div.mce_inline_error, .c-download-section__subscribe_holder #mce-error-response, .c-download-section__subscribe_holder #mce-success-response {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    font-size: 10px; }
 
 .c-timeline-section {
   padding-top: 100px;

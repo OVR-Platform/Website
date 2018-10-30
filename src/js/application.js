@@ -950,7 +950,7 @@ return Cell;
 
 }));
 
-},{"get-size":17}],9:[function(require,module,exports){
+},{"get-size":18}],9:[function(require,module,exports){
 // drag
 ( function( window, factory ) {
   // universal module definition
@@ -1349,7 +1349,7 @@ return Flickity;
 
 }));
 
-},{"./flickity":10,"fizzy-ui-utils":5,"unidragger":23}],10:[function(require,module,exports){
+},{"./flickity":10,"fizzy-ui-utils":5,"unidragger":24}],10:[function(require,module,exports){
 // Flickity main
 ( function( window, factory ) {
   // universal module definition
@@ -2255,7 +2255,7 @@ return Flickity;
 
 }));
 
-},{"./animate":7,"./cell":8,"./slide":16,"ev-emitter":4,"fizzy-ui-utils":5,"get-size":17}],11:[function(require,module,exports){
+},{"./animate":7,"./cell":8,"./slide":16,"ev-emitter":4,"fizzy-ui-utils":5,"get-size":18}],11:[function(require,module,exports){
 /*!
  * Flickity v2.1.2
  * Touch, responsive, flickable carousels
@@ -2621,7 +2621,7 @@ return Flickity;
 
 }));
 
-},{"./flickity":10,"fizzy-ui-utils":5,"tap-listener":22}],14:[function(require,module,exports){
+},{"./flickity":10,"fizzy-ui-utils":5,"tap-listener":23}],14:[function(require,module,exports){
 // player & autoPlay
 ( function( window, factory ) {
   // universal module definition
@@ -3037,7 +3037,7 @@ return Flickity;
 
 }));
 
-},{"./flickity":10,"fizzy-ui-utils":5,"tap-listener":22}],16:[function(require,module,exports){
+},{"./flickity":10,"fizzy-ui-utils":5,"tap-listener":23}],16:[function(require,module,exports){
 // slide
 ( function( window, factory ) {
   // universal module definition
@@ -3118,6 +3118,268 @@ return Slide;
 }));
 
 },{}],17:[function(require,module,exports){
+// get successful control from form and assemble into object
+// http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
+
+// types which indicate a submit action and are not successful controls
+// these will be ignored
+var k_r_submitter = /^(?:submit|button|image|reset|file)$/i;
+
+// node names which could be successful controls
+var k_r_success_contrls = /^(?:input|select|textarea|keygen)/i;
+
+// Matches bracket notation.
+var brackets = /(\[[^\[\]]*\])/g;
+
+// serializes form fields
+// @param form MUST be an HTMLForm element
+// @param options is an optional argument to configure the serialization. Default output
+// with no options specified is a url encoded string
+//    - hash: [true | false] Configure the output type. If true, the output will
+//    be a js object.
+//    - serializer: [function] Optional serializer function to override the default one.
+//    The function takes 3 arguments (result, key, value) and should return new result
+//    hash and url encoded str serializers are provided with this module
+//    - disabled: [true | false]. If true serialize disabled fields.
+//    - empty: [true | false]. If true serialize empty fields
+function serialize(form, options) {
+    if (typeof options != 'object') {
+        options = { hash: !!options };
+    }
+    else if (options.hash === undefined) {
+        options.hash = true;
+    }
+
+    var result = (options.hash) ? {} : '';
+    var serializer = options.serializer || ((options.hash) ? hash_serializer : str_serialize);
+
+    var elements = form && form.elements ? form.elements : [];
+
+    //Object store each radio and set if it's empty or not
+    var radio_store = Object.create(null);
+
+    for (var i=0 ; i<elements.length ; ++i) {
+        var element = elements[i];
+
+        // ingore disabled fields
+        if ((!options.disabled && element.disabled) || !element.name) {
+            continue;
+        }
+        // ignore anyhting that is not considered a success field
+        if (!k_r_success_contrls.test(element.nodeName) ||
+            k_r_submitter.test(element.type)) {
+            continue;
+        }
+
+        var key = element.name;
+        var val = element.value;
+
+        // we can't just use element.value for checkboxes cause some browsers lie to us
+        // they say "on" for value when the box isn't checked
+        if ((element.type === 'checkbox' || element.type === 'radio') && !element.checked) {
+            val = undefined;
+        }
+
+        // If we want empty elements
+        if (options.empty) {
+            // for checkbox
+            if (element.type === 'checkbox' && !element.checked) {
+                val = '';
+            }
+
+            // for radio
+            if (element.type === 'radio') {
+                if (!radio_store[element.name] && !element.checked) {
+                    radio_store[element.name] = false;
+                }
+                else if (element.checked) {
+                    radio_store[element.name] = true;
+                }
+            }
+
+            // if options empty is true, continue only if its radio
+            if (val == undefined && element.type == 'radio') {
+                continue;
+            }
+        }
+        else {
+            // value-less fields are ignored unless options.empty is true
+            if (!val) {
+                continue;
+            }
+        }
+
+        // multi select boxes
+        if (element.type === 'select-multiple') {
+            val = [];
+
+            var selectOptions = element.options;
+            var isSelectedOptions = false;
+            for (var j=0 ; j<selectOptions.length ; ++j) {
+                var option = selectOptions[j];
+                var allowedEmpty = options.empty && !option.value;
+                var hasValue = (option.value || allowedEmpty);
+                if (option.selected && hasValue) {
+                    isSelectedOptions = true;
+
+                    // If using a hash serializer be sure to add the
+                    // correct notation for an array in the multi-select
+                    // context. Here the name attribute on the select element
+                    // might be missing the trailing bracket pair. Both names
+                    // "foo" and "foo[]" should be arrays.
+                    if (options.hash && key.slice(key.length - 2) !== '[]') {
+                        result = serializer(result, key + '[]', option.value);
+                    }
+                    else {
+                        result = serializer(result, key, option.value);
+                    }
+                }
+            }
+
+            // Serialize if no selected options and options.empty is true
+            if (!isSelectedOptions && options.empty) {
+                result = serializer(result, key, '');
+            }
+
+            continue;
+        }
+
+        result = serializer(result, key, val);
+    }
+
+    // Check for all empty radio buttons and serialize them with key=""
+    if (options.empty) {
+        for (var key in radio_store) {
+            if (!radio_store[key]) {
+                result = serializer(result, key, '');
+            }
+        }
+    }
+
+    return result;
+}
+
+function parse_keys(string) {
+    var keys = [];
+    var prefix = /^([^\[\]]*)/;
+    var children = new RegExp(brackets);
+    var match = prefix.exec(string);
+
+    if (match[1]) {
+        keys.push(match[1]);
+    }
+
+    while ((match = children.exec(string)) !== null) {
+        keys.push(match[1]);
+    }
+
+    return keys;
+}
+
+function hash_assign(result, keys, value) {
+    if (keys.length === 0) {
+        result = value;
+        return result;
+    }
+
+    var key = keys.shift();
+    var between = key.match(/^\[(.+?)\]$/);
+
+    if (key === '[]') {
+        result = result || [];
+
+        if (Array.isArray(result)) {
+            result.push(hash_assign(null, keys, value));
+        }
+        else {
+            // This might be the result of bad name attributes like "[][foo]",
+            // in this case the original `result` object will already be
+            // assigned to an object literal. Rather than coerce the object to
+            // an array, or cause an exception the attribute "_values" is
+            // assigned as an array.
+            result._values = result._values || [];
+            result._values.push(hash_assign(null, keys, value));
+        }
+
+        return result;
+    }
+
+    // Key is an attribute name and can be assigned directly.
+    if (!between) {
+        result[key] = hash_assign(result[key], keys, value);
+    }
+    else {
+        var string = between[1];
+        // +var converts the variable into a number
+        // better than parseInt because it doesn't truncate away trailing
+        // letters and actually fails if whole thing is not a number
+        var index = +string;
+
+        // If the characters between the brackets is not a number it is an
+        // attribute name and can be assigned directly.
+        if (isNaN(index)) {
+            result = result || {};
+            result[string] = hash_assign(result[string], keys, value);
+        }
+        else {
+            result = result || [];
+            result[index] = hash_assign(result[index], keys, value);
+        }
+    }
+
+    return result;
+}
+
+// Object/hash encoding serializer.
+function hash_serializer(result, key, value) {
+    var matches = key.match(brackets);
+
+    // Has brackets? Use the recursive assignment function to walk the keys,
+    // construct any missing objects in the result tree and make the assignment
+    // at the end of the chain.
+    if (matches) {
+        var keys = parse_keys(key);
+        hash_assign(result, keys, value);
+    }
+    else {
+        // Non bracket notation can make assignments directly.
+        var existing = result[key];
+
+        // If the value has been assigned already (for instance when a radio and
+        // a checkbox have the same name attribute) convert the previous value
+        // into an array before pushing into it.
+        //
+        // NOTE: If this requirement were removed all hash creation and
+        // assignment could go through `hash_assign`.
+        if (existing) {
+            if (!Array.isArray(existing)) {
+                result[key] = [ existing ];
+            }
+
+            result[key].push(value);
+        }
+        else {
+            result[key] = value;
+        }
+    }
+
+    return result;
+}
+
+// urlform encoding serializer
+function str_serialize(result, key, value) {
+    // encode newlines as \r\n cause the html spec says so
+    value = value.replace(/(\r)?\n/g, '\r\n');
+    value = encodeURIComponent(value);
+
+    // spaces should be '+' rather than '%20'.
+    value = value.replace(/%20/g, '+');
+    return result + (result ? '&' : '') + encodeURIComponent(key) + '=' + value;
+}
+
+module.exports = serialize;
+
+},{}],18:[function(require,module,exports){
 /*!
  * getSize v2.0.3
  * measure size of elements
@@ -3326,7 +3588,7 @@ return getSize;
 
 });
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 (function (global){
 /*!
  * VERSION: 2.0.2
@@ -11344,7 +11606,7 @@ if (_gsScope._gsDefine) { _gsScope._gsQueue.pop()(); } //necessary in case Tween
 })((typeof(module) !== "undefined" && module.exports && typeof(global) !== "undefined") ? global : this || window, "TweenMax");
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /*!
   * Reqwest! A general purpose XHR connection manager
   * license MIT (c) Dustin Diaz 2015
@@ -11976,7 +12238,7 @@ if (_gsScope._gsDefine) { _gsScope._gsQueue.pop()(); } //necessary in case Tween
   return reqwest
 });
 
-},{"xhr2":1}],20:[function(require,module,exports){
+},{"xhr2":1}],21:[function(require,module,exports){
 (function (global){
 /**
  * SmoothParallax 1.1.2
@@ -12353,13 +12615,13 @@ if (_gsScope._gsDefine) { _gsScope._gsQueue.pop()(); } //necessary in case Tween
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 (function (global){
 /*! smooth-scroll v14.2.1 | (c) 2018 Chris Ferdinandi | MIT License | http://github.com/cferdinandi/smooth-scroll */
 window.Element&&!Element.prototype.closest&&(Element.prototype.closest=function(e){var t,n=(this.document||this.ownerDocument).querySelectorAll(e),o=this;do{for(t=n.length;--t>=0&&n.item(t)!==o;);}while(t<0&&(o=o.parentElement));return o}),(function(){function e(e,t){t=t||{bubbles:!1,cancelable:!1,detail:void 0};var n=document.createEvent("CustomEvent");return n.initCustomEvent(e,t.bubbles,t.cancelable,t.detail),n}if("function"==typeof window.CustomEvent)return!1;e.prototype=window.Event.prototype,window.CustomEvent=e})(),(function(){for(var e=0,t=["ms","moz","webkit","o"],n=0;n<t.length&&!window.requestAnimationFrame;++n)window.requestAnimationFrame=window[t[n]+"RequestAnimationFrame"],window.cancelAnimationFrame=window[t[n]+"CancelAnimationFrame"]||window[t[n]+"CancelRequestAnimationFrame"];window.requestAnimationFrame||(window.requestAnimationFrame=function(t,n){var o=(new Date).getTime(),i=Math.max(0,16-(o-e)),r=window.setTimeout((function(){t(o+i)}),i);return e=o+i,r}),window.cancelAnimationFrame||(window.cancelAnimationFrame=function(e){clearTimeout(e)})})(),(function(e,t){"function"==typeof define&&define.amd?define([],(function(){return t(e)})):"object"==typeof exports?module.exports=t(e):e.SmoothScroll=t(e)})("undefined"!=typeof global?global:"undefined"!=typeof window?window:this,(function(e){"use strict";var t={ignore:"[data-scroll-ignore]",header:null,topOnEmptyHash:!0,speed:500,clip:!0,offset:0,easing:"easeInOutCubic",customEasing:null,updateURL:!0,popstate:!0,emitEvents:!0},n=function(){return"querySelector"in document&&"addEventListener"in e&&"requestAnimationFrame"in e&&"closest"in e.Element.prototype},o=function(){for(var e={},t=0;t<arguments.length;t++)!(function(t){for(var n in t)t.hasOwnProperty(n)&&(e[n]=t[n])})(arguments[t]);return e},i=function(t){return!!("matchMedia"in e&&e.matchMedia("(prefers-reduced-motion)").matches)},r=function(t){return parseInt(e.getComputedStyle(t).height,10)},a=function(e){var t;try{t=decodeURIComponent(e)}catch(n){t=e}return t},u=function(e){"#"===e.charAt(0)&&(e=e.substr(1));for(var t,n=String(e),o=n.length,i=-1,r="",a=n.charCodeAt(0);++i<o;){if(0===(t=n.charCodeAt(i)))throw new InvalidCharacterError("Invalid character: the input contains U+0000.");t>=1&&t<=31||127==t||0===i&&t>=48&&t<=57||1===i&&t>=48&&t<=57&&45===a?r+="\\"+t.toString(16)+" ":r+=t>=128||45===t||95===t||t>=48&&t<=57||t>=65&&t<=90||t>=97&&t<=122?n.charAt(i):"\\"+n.charAt(i)}var u;try{u=decodeURIComponent("#"+r)}catch(e){u="#"+r}return u},c=function(e,t){var n;return"easeInQuad"===e.easing&&(n=t*t),"easeOutQuad"===e.easing&&(n=t*(2-t)),"easeInOutQuad"===e.easing&&(n=t<.5?2*t*t:(4-2*t)*t-1),"easeInCubic"===e.easing&&(n=t*t*t),"easeOutCubic"===e.easing&&(n=--t*t*t+1),"easeInOutCubic"===e.easing&&(n=t<.5?4*t*t*t:(t-1)*(2*t-2)*(2*t-2)+1),"easeInQuart"===e.easing&&(n=t*t*t*t),"easeOutQuart"===e.easing&&(n=1- --t*t*t*t),"easeInOutQuart"===e.easing&&(n=t<.5?8*t*t*t*t:1-8*--t*t*t*t),"easeInQuint"===e.easing&&(n=t*t*t*t*t),"easeOutQuint"===e.easing&&(n=1+--t*t*t*t*t),"easeInOutQuint"===e.easing&&(n=t<.5?16*t*t*t*t*t:1+16*--t*t*t*t*t),e.customEasing&&(n=e.customEasing(t)),n||t},s=function(){return Math.max(document.body.scrollHeight,document.documentElement.scrollHeight,document.body.offsetHeight,document.documentElement.offsetHeight,document.body.clientHeight,document.documentElement.clientHeight)},l=function(t,n,o,i){var r=0;if(t.offsetParent)do{r+=t.offsetTop,t=t.offsetParent}while(t);return r=Math.max(r-n-o,0),i&&(r=Math.min(r,s()-e.innerHeight)),r},m=function(e){return e?r(e)+e.offsetTop:0},d=function(e,t,n){t||history.pushState&&n.updateURL&&history.pushState({smoothScroll:JSON.stringify(n),anchor:e.id},document.title,e===document.documentElement?"#top":"#"+e.id)},f=function(t,n,o){0===t&&document.body.focus(),o||(t.focus(),document.activeElement!==t&&(t.setAttribute("tabindex","-1"),t.focus(),t.style.outline="none"),e.scrollTo(0,n))},h=function(t,n,o,i){if(n.emitEvents&&"function"==typeof e.CustomEvent){var r=new CustomEvent(t,{bubbles:!0,detail:{anchor:o,toggle:i}});document.dispatchEvent(r)}};return function(r,p){var g,v,w,y,E,b,S,A={};A.cancelScroll=function(e){cancelAnimationFrame(S),S=null,e||h("scrollCancel",g)},A.animateScroll=function(n,i,r){var a=o(g||t,r||{}),u="[object Number]"===Object.prototype.toString.call(n),p=u||!n.tagName?null:n;if(u||p){var v=e.pageYOffset;a.header&&!y&&(y=document.querySelector(a.header)),E||(E=m(y));var w,b,C,O=u?n:l(p,E,parseInt("function"==typeof a.offset?a.offset(n,i):a.offset,10),a.clip),I=O-v,q=s(),F=0,L=function(t,o){var r=e.pageYOffset;if(t==o||r==o||(v<o&&e.innerHeight+r)>=q)return A.cancelScroll(!0),f(n,o,u),h("scrollStop",a,n,i),w=null,S=null,!0},H=function(t){w||(w=t),F+=t-w,b=F/parseInt(a.speed,10),b=b>1?1:b,C=v+I*c(a,b),e.scrollTo(0,Math.floor(C)),L(C,O)||(S=e.requestAnimationFrame(H),w=t)};0===e.pageYOffset&&e.scrollTo(0,0),d(n,u,a),h("scrollStart",a,n,i),A.cancelScroll(!0),e.requestAnimationFrame(H)}};var C=function(t){if(!i()&&0===t.button&&!t.metaKey&&!t.ctrlKey&&"closest"in t.target&&(w=t.target.closest(r))&&"a"===w.tagName.toLowerCase()&&!t.target.closest(g.ignore)&&w.hostname===e.location.hostname&&w.pathname===e.location.pathname&&/#/.test(w.href)){var n=u(a(w.hash)),o=g.topOnEmptyHash&&"#"===n?document.documentElement:document.querySelector(n);o=o||"#top"!==n?o:document.documentElement,o&&(t.preventDefault(),A.animateScroll(o,w))}},O=function(e){if(null!==history.state&&history.state.smoothScroll&&history.state.smoothScroll===JSON.stringify(g)&&history.state.anchor){var t=document.querySelector(u(a(history.state.anchor)));t&&A.animateScroll(t,null,{updateURL:!1})}},I=function(e){b||(b=setTimeout((function(){b=null,E=m(y)}),66))};return A.destroy=function(){g&&(document.removeEventListener("click",C,!1),e.removeEventListener("resize",I,!1),e.removeEventListener("popstate",O,!1),A.cancelScroll(),g=null,v=null,w=null,y=null,E=null,b=null,S=null)},A.init=function(i){if(!n())throw"Smooth Scroll: This browser does not support the required JavaScript methods and browser APIs.";A.destroy(),g=o(t,i||{}),y=g.header?document.querySelector(g.header):null,E=m(y),document.addEventListener("click",C,!1),y&&e.addEventListener("resize",I,!1),g.updateURL&&g.popstate&&e.addEventListener("popstate",O,!1)},A.init(p),A}}));
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /*!
  * Tap listener v2.0.0
  * listens to taps
@@ -12474,7 +12736,7 @@ return TapListener;
 
 }));
 
-},{"unipointer":24}],23:[function(require,module,exports){
+},{"unipointer":25}],24:[function(require,module,exports){
 /*!
  * Unidragger v2.3.0
  * Draggable base class
@@ -12755,7 +13017,7 @@ return Unidragger;
 
 }));
 
-},{"unipointer":24}],24:[function(require,module,exports){
+},{"unipointer":25}],25:[function(require,module,exports){
 /*!
  * Unipointer v2.3.0
  * base class for doing one thing with pointer event
@@ -13058,17 +13320,17 @@ return Unipointer;
 
 }));
 
-},{"ev-emitter":4}],25:[function(require,module,exports){
-'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _util=require('./util');var _smoothParallax=require('smooth-parallax');var _smoothParallax2=_interopRequireDefault(_smoothParallax);var _flickity=require('flickity');var _flickity2=_interopRequireDefault(_flickity);var _gsap=require('gsap');var _countdownJs=require('countdown-js');var _countdownJs2=_interopRequireDefault(_countdownJs);var _smoothScroll=require('smooth-scroll');var _smoothScroll2=_interopRequireDefault(_smoothScroll);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var body=(0,_util.$1)("body");// import BackgroundVideo from 'background-video'
+},{"ev-emitter":4}],26:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _util=require('./util');var _smoothParallax=require('smooth-parallax');var _smoothParallax2=_interopRequireDefault(_smoothParallax);var _flickity=require('flickity');var _flickity2=_interopRequireDefault(_flickity);var _gsap=require('gsap');var _countdownJs=require('countdown-js');var _countdownJs2=_interopRequireDefault(_countdownJs);var _smoothScroll=require('smooth-scroll');var _smoothScroll2=_interopRequireDefault(_smoothScroll);var _reqwest=require('reqwest');var _reqwest2=_interopRequireDefault(_reqwest);var _formSerialize=require('form-serialize');var _formSerialize2=_interopRequireDefault(_formSerialize);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var body=(0,_util.$1)("body");// import BackgroundVideo from 'background-video'
 document.addEventListener('DOMContentLoaded',function(){document.documentElement.className='js';Application.init();});window.addEventListener('resize',(0,_util.debounce)(function(){},250));window.addEventListener('load',function(){});var Application=function(){var startParallax=function startParallax(){_smoothParallax2.default.init();};var reInit=function reInit(){};var initCarousels=function initCarousels(){var carousel=new _flickity2.default('.js-tab-slider',{cellAlign:'left',contain:true,pageDots:false,freeScroll:false,prevNextButtons:false,imagesLoaded:true,adaptiveHeight:true,hash:true,pauseAutoPlayOnHover:false});var featuresButton=(0,_util.$)('.js-feature-tab-button');(0,_util.each)(featuresButton,function(i,featureButton){featureButton.addEventListener('click',function(){var id=this.dataset.id;carousel.select(parseInt(id,10));(0,_util.each)(featuresButton,function(l,fB){fB.classList.remove('js-button--active');});this.classList.add('js-button--active');});});var elem=document.querySelector('.c-stories-dots__container');if(elem!=null){var flktyTimeline=new _flickity2.default(elem,{cellAlign:'left',cellSelector:'.c-services-dot__container',prevNextButtons:false,adaptiveHeight:true,pageDots:false,contain:true});(0,_util.each)(elem.getElementsByClassName('c-services-dot__container'),function(i,dot_container){dot_container.addEventListener('mouseenter',function(){// console.log(this.dataset.index - 1);
 flktyTimeline.select(this.dataset.index);});});}};var menuManager=function menuManager(){window.removeEventListener("scroll",menuManagerOnScroll,false);window.addEventListener("scroll",menuManagerOnScroll,false);function menuManagerOnScroll(){var hero=(0,_util.$1)(".c-hero");var pageWrap=(0,_util.$1)("#page-wrap");var heroHeight=hero.offsetHeight;var scrollTop=window.pageYOffset||document.documentElement.scrollTop;// console.log(scrollTop);
 // console.log(heroHeight);
 // console.log(footerOffset);
 // pageWrap menu
 if(scrollTop>heroHeight-500){pageWrap.classList.add("is-scrolling");}else{pageWrap.classList.remove("is-scrolling");}}};var countDownManager=function countDownManager(){// setup end datetime for timer
-var ten_days=1000*60*60*24*10;var end=new Date("12/1/2018");var timer=_countdownJs2.default.timer(end,function(timeLeft){document.getElementById("c-countdown_container").innerHTML="Presale will start in "+timeLeft.days+" days "+timeLeft.hours+" hours "+timeLeft.minutes+" min "+timeLeft.seconds+" sec ";},function(){console.log("Countdown Finished!");});};var onMobileHamburgerClick=function onMobileHamburgerClick(){var pageWrap=(0,_util.$1)("#hamburger-menu");pageWrap.addEventListener("click",function(){if(body.classList.contains("is_mobile_menu_open")){body.classList.remove("is_mobile_menu_open");}else{body.classList.add("is_mobile_menu_open");}});};var scrollToLink=function scrollToLink(){var scroll=new _smoothScroll2.default('a[href*="#"]',{speed:500,offset:100});};var init=function init(){scrollToLink();startParallax();initCarousels();menuManager();countDownManager();(0,_util.listenForms)();onMobileHamburgerClick();};return{init:init};}();exports.default=Application;
+var ten_days=1000*60*60*24*10;var end=new Date("12/1/2018");var timer=_countdownJs2.default.timer(end,function(timeLeft){document.getElementById("c-countdown_container").innerHTML="Presale will start in "+timeLeft.days+" days "+timeLeft.hours+" hours "+timeLeft.minutes+" min "+timeLeft.seconds+" sec ";},function(){console.log("Countdown Finished!");});};var onMobileHamburgerClick=function onMobileHamburgerClick(){var pageWrap=(0,_util.$1)("#hamburger-menu");pageWrap.addEventListener("click",function(){if(body.classList.contains("is_mobile_menu_open")){body.classList.remove("is_mobile_menu_open");}else{body.classList.add("is_mobile_menu_open");}});};var scrollToLink=function scrollToLink(){var scroll=new _smoothScroll2.default('a[href*="#"]',{speed:500,offset:100});};var init=function init(){scrollToLink();startParallax();initCarousels();menuManager();countDownManager();(0,_util.listenForms)();onMobileHamburgerClick();mailchimps();};return{init:init};}();exports.default=Application;
 
-},{"./util":26,"countdown-js":2,"flickity":11,"gsap":18,"smooth-parallax":20,"smooth-scroll":21}],26:[function(require,module,exports){
+},{"./util":27,"countdown-js":2,"flickity":11,"form-serialize":17,"gsap":19,"reqwest":20,"smooth-parallax":21,"smooth-scroll":22}],27:[function(require,module,exports){
 'use strict';Object.defineProperty(exports,"__esModule",{value:true});exports.debounce=debounce;exports.throttle=throttle;exports.each=each;exports.$1=$1;exports.$=$;exports.whichTransitionEvent=whichTransitionEvent;exports.getClosest=getClosest;exports.insertAfter=insertAfter;exports.listenForms=listenForms;var _reqwest=require('reqwest');var _reqwest2=_interopRequireDefault(_reqwest);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}function debounce(func,wait,immediate){var timeout;return function(){var context=this;var args=arguments;var later=function later(){timeout=null;if(!immediate)func.apply(context,args);};var callNow=immediate&&!timeout;clearTimeout(timeout);timeout=setTimeout(later,wait);if(callNow)func.apply(context,args);};}function throttle(callback,wait){var context=arguments.length>2&&arguments[2]!==undefined?arguments[2]:this;var timeout=null;var callbackArgs=null;var later=function later(){callback.apply(context,callbackArgs);timeout=null;};return function(){if(!timeout){callbackArgs=arguments;timeout=setTimeout(later,wait);}};}function each(array,callback,scope){for(var i=0;i<array.length;i+=1){callback.call(scope,i,array[i]);}}function $1(selector,context){return(context||document).querySelector(selector);}function $(selector,context){return(context||document).querySelectorAll(selector);}function whichTransitionEvent(){var t;var el=document.createElement('fakeelement');var transitions={'transition':'transitionend','OTransition':'oTransitionEnd','MozTransition':'transitionend','WebkitTransition':'webkitTransitionEnd'};for(t in transitions){if(el.style[t]!==undefined){return transitions[t];}}}function getClosest(elem,selector){if(!Element.prototype.matches){Element.prototype.matches=Element.prototype.matchesSelector||Element.prototype.mozMatchesSelector||Element.prototype.msMatchesSelector||Element.prototype.oMatchesSelector||Element.prototype.webkitMatchesSelector||function(s){var matches=(this.document||this.ownerDocument).querySelectorAll(s),i=matches.length;while(--i>=0&&matches.item(i)!==this){}return i>-1;};}// Get the closest matching element
 for(;elem&&elem!==document;elem=elem.parentNode){if(elem.matches(selector))return elem;}return null;}function insertAfter(newNode,referenceNode){referenceNode.parentNode.insertBefore(newNode,referenceNode.nextSibling);}var couldSendEmail=true;var submitForm=debounce(function(form){if(couldSendEmail==false){return false;}couldSendEmail=false;var url=form.getAttribute("action");$1("body").classList.add("is_form--loading");// console.log('submitForm','mail request');
 (0,_reqwest2.default)({url:url,method:'post',data:{name:form.querySelector('.name').value,email:form.querySelector('.email').value,ogg:form.querySelector('.ogg').value,msg:form.querySelector('.msg').value},success:function success(resp){setTimeout(function(){if(resp=="false"){$1("body").classList.remove("is_form--loading");$1("body").classList.add("is_form--error");}else{$1("body").classList.remove("is_form--loading");$1("body").classList.add("is_form--success");}setTimeout(function(){$1("body").classList.remove("is_form--success");$1("body").classList.remove("is_form--error");$1("body").classList.remove("is_form--loading");form.querySelector('.name').value="";form.querySelector('.email').value="";form.querySelector('.msg').value="";couldSendEmail=true;},3000);},500);}});},4000,true);function listenForms(){var forms=$('.c-general-contact-form');// console.log('listenForms','listenForms')
@@ -13082,7 +13344,7 @@ form.addEventListener("submit",function(e){e.preventDefault();submitForm(form);}
 // })
 });}
 
-},{"reqwest":19}]},{},[25])
+},{"reqwest":20}]},{},[26])
 
 
 //# sourceMappingURL=application.js.map

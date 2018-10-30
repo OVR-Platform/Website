@@ -5,6 +5,8 @@ import Flickity from 'flickity'
 import { TweenLite, ScrollToPlugin } from 'gsap'
 import Countdown from 'countdown-js'
 import SmoothScroll from 'smooth-scroll'
+import reqwest from 'reqwest'
+import serialize from 'form-serialize'
 
 const body = $1("body")
 
@@ -108,9 +110,9 @@ const Application = (() => {
     // setup end datetime for timer
     var ten_days = 1000 * 60 * 60 * 24 * 10
     var end = new Date("12/1/2018")
-    
+
     var timer = Countdown.timer(end, function(timeLeft) {
-      document.getElementById("c-countdown_container").innerHTML = "Presale will start in "+timeLeft.days + " days " + timeLeft.hours + " hours " + timeLeft.minutes + " min " + timeLeft.seconds + " sec ";      
+      document.getElementById("c-countdown_container").innerHTML = "Presale will start in "+timeLeft.days + " days " + timeLeft.hours + " hours " + timeLeft.minutes + " min " + timeLeft.seconds + " sec ";
     }, function() {
       console.log("Countdown Finished!")
     })
@@ -127,16 +129,13 @@ const Application = (() => {
     });
   }
 
-  
-  
-  const scrollToLink = () => {
 
+
+  const scrollToLink = () => {
     	var scroll = new SmoothScroll('a[href*="#"]', {
         speed: 500,
         offset: 100
       });
-
-
   }
 
   const init = () => {
@@ -147,6 +146,7 @@ const Application = (() => {
     countDownManager();
     listenForms();
     onMobileHamburgerClick();
+    mailchimps();
   }
 
   return {

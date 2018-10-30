@@ -76,6 +76,7 @@
     "background-video": "^2.0.1",
     "countdown-js": "^1.0.2",
     "flickity": "^2.1.2",
+    "form-serialize": "^0.7.2",
     "gsap": "^2.0.2",
     "reqwest": "^2.0.5",
     "smooth-parallax": "^1.1.2",
