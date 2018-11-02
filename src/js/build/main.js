@@ -74,7 +74,7 @@ const Application = (() => {
       });
 
       each(elem.getElementsByClassName('c-services-dot__container'), (i, dot_container) => {
-        dot_container.addEventListener( 'mouseenter', function(){
+        dot_container.addEventListener( 'click', function(){
           // console.log(this.dataset.index - 1);
           flktyTimeline.select( this.dataset.index );
         });
