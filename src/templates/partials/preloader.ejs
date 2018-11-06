@@ -1,0 +1,97 @@
+<style>
+.c-loader--logo-holder {
+  width: 150px;
+  height: 200px;
+  position: absolute;
+  left: calc(50% - 75px);
+  top: calc(50% - 100px);
+  overflow: visible;
+  z-index: 99999;
+}
+.c-loader--logo-holder svg {
+  overflow: visible!important;
+}
+@keyframes rotate-gear {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+#azzurro, #arancione, #viola, #interno, #interno, #left, #top, #sfera, .o-letter, .v-letter, .r-letter {
+  display: block;
+  transition: all 0.5s ease-in-out;
+}
+#azzurro {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+#arancione {
+  opacity: 0;
+  transform: translateY(-100%);
+  transition-delay: 50ms;
+}
+#viola {
+  opacity: 0;
+  transition-delay: 150ms;
+  transform: translateX(100%);
+}
+#left {
+  opacity: 0;
+  transition-delay: 250ms;
+  transform: translateX(100%);
+}
+#top {
+  opacity: 0;
+  transition-delay: 250ms;
+  transform: translateY(-100%);
+}
+#interno {
+  transition-delay: 400ms;
+  transform: scale(0);
+  transform-origin: center 250px;
+}
+#sfera {
+  transform: scale(0);
+  transition-delay: 700ms;
+  transform-origin: center 250px;
+  position: relative;
+}
+.o-letter {
+  transform: translate(-50px, -50px);
+  opacity: 0;
+  transition-delay: 900ms;
+}
+.v-letter {
+  transform: translateY(50px);
+  opacity: 0;
+  transition-delay: 950ms;
+}
+.r-letter {
+  transform: translate(50px, -50px);
+  opacity: 0;
+  transition-delay: 1000ms;
+}
+.c-loader--logo-holder-animated #azzurro, .c-loader--logo-holder-animated #arancione, .c-loader--logo-holder-animated #viola, .c-loader--logo-holder-animated #interno, .c-loader--logo-holder-animated #left, .c-loader--logo-holder-animated #top, .c-loader--logo-holder-animated .o-letter, .c-loader--logo-holder-animated .v-letter, .c-loader--logo-holder-animated .r-letter {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+.c-loader--logo-holder-animated #interno {
+  transform: scale(1);
+}
+.c-loader--logo-holder-animated #sfera {
+  transform: scale(1);
+}
+
+</style>
+<div class="c-preloader">
+    <div class="c-preloader--content">
+        <div class="c-loader--logo-holder ">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 480.48 680.98"><defs><style>.l-cls-1{isolation:isolate;}.l-cls-2{fill:url(#llinear-gradient);}.l-cls-3{fill:url(#llinear-gradient-2);}.l-cls-4{fill:url(#llinear-gradient-3);}.l-cls-5{opacity:0.45!important;mix-blend-mode:color-burn;fill:url(#llinear-gradient-4);}.l-cls-6{fill:url(#radial-gradient);}.l-cls-7{opacity:0.76;fill:url(#llinear-gradient-5);}.l-cls-7,.l-cls-8{mix-blend-mode:soft-light;}.l-cls-8{fill:url(#llinear-gradient-6);}.l-cls-9{fill:#1d1d1b;}</style><linearGradient id="llinear-gradient" x1="301.05" y1="215.93" x2="497.74" y2="215.93" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#6b32c1"/><stop offset="1" stop-color="#c81d5e"/></linearGradient><linearGradient id="llinear-gradient-2" y1="215.93" x2="240.24" y2="215.93" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ec663c"/><stop offset="1" stop-color="#f9b426"/></linearGradient><linearGradient id="llinear-gradient-3" x1="253.5" y1="354.98" x2="223.5" y2="528.98" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0081dd"/><stop offset="0.19" stop-color="#0589e0"/><stop offset="0.48" stop-color="#11a0e9"/><stop offset="0.84" stop-color="#25c5f8"/><stop offset="1" stop-color="#2fd7ff"/></linearGradient><linearGradient id="llinear-gradient-4" x1="240.24" y1="406.45" x2="240.24" y2="61.37" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4e4d4c"/><stop offset="0.12" stop-color="#5a5858"/><stop offset="0.47" stop-color="#747273"/><stop offset="0.77" stop-color="#848183"/><stop offset="1" stop-color="#8a8789"/></linearGradient><radialGradient id="radial-gradient" cx="207.1" cy="230.87" r="150.21" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.21" stop-color="#fefefe" stop-opacity="0.99"/><stop offset="0.39" stop-color="#fcfcfb" stop-opacity="0.96"/><stop offset="0.55" stop-color="#f9f9f6" stop-opacity="0.9"/><stop offset="0.71" stop-color="#f4f4ee" stop-opacity="0.82"/><stop offset="0.85" stop-color="#edeee5" stop-opacity="0.72"/><stop offset="1" stop-color="#e5e6d9" stop-opacity="0.6"/><stop offset="1" stop-color="#e5e6d9" stop-opacity="0.6"/></radialGradient><linearGradient id="llinear-gradient-5" x1="108.24" y1="36" x2="383.47" y2="161.88" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.14" stop-color="#fff" stop-opacity="0.97"/><stop offset="0.35" stop-color="#fff" stop-opacity="0.89"/><stop offset="0.61" stop-color="#fff" stop-opacity="0.75"/><stop offset="0.9" stop-color="#fff" stop-opacity="0.57"/><stop offset="1" stop-color="#fff" stop-opacity="0.5"/></linearGradient><linearGradient id="llinear-gradient-6" x1="329.45" y1="175.32" x2="391.66" y2="488.06" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.12" stop-color="#fff" stop-opacity="0.98"/><stop offset="0.28" stop-color="#fff" stop-opacity="0.92"/><stop offset="0.45" stop-color="#fff" stop-opacity="0.82"/><stop offset="0.63" stop-color="#fff" stop-opacity="0.67"/><stop offset="0.82" stop-color="#fff" stop-opacity="0.5"/><stop offset="1" stop-color="#fff" stop-opacity="0.3"/></linearGradient></defs><title>Risorsa 1</title><g class="l-cls-1"><g id="Livello_2" data-name="Livello 2"><g id="Livello_1-2" data-name="Livello 1"><path id="viola" class="l-cls-2" d="M469.86,100.42a56.18,56.18,0,0,0-23.89-19l-71.68-30L262,4.37A56.24,56.24,0,0,0,240.24,0V335.64l229.71,96.22a56.2,56.2,0,0,0,10.53-32.77V133.32A56.2,56.2,0,0,0,469.86,100.42Z"/><path id="arancione" class="l-cls-3" d="M218.51,4.37,40.66,78.86l-6.15,2.57A56.26,56.26,0,0,0,0,133.32V399.09a56.2,56.2,0,0,0,10.53,32.77l229.71-96.22V0A56.24,56.24,0,0,0,218.51,4.37Z"/><path id="azzurro" class="l-cls-4" d="M240.24,335.64,10.53,431.86a56.18,56.18,0,0,0,23.68,19l148,63,36,15.33a56.25,56.25,0,0,0,44.08,0l25.06-10.67,158.94-67.68a56.18,56.18,0,0,0,23.68-19Z"/><path id="interno" class="l-cls-5" d="M407.83,138.68a41.47,41.47,0,0,0-17.44-14.62l-52.32-23.12-82-36.23a39.08,39.08,0,0,0-31.72,0L94.58,122.08l-4.49,2a41.47,41.47,0,0,0-17.44,14.62A44.92,44.92,0,0,0,64.9,164V368.69a44.92,44.92,0,0,0,7.69,25.24,41.49,41.49,0,0,0,17.28,14.62l108,48.54,26.27,11.81a39.09,39.09,0,0,0,32.17,0l18.29-8.22,116-52.12a41.49,41.49,0,0,0,17.28-14.62,44.92,44.92,0,0,0,7.69-25.24V164A44.91,44.91,0,0,0,407.83,138.68Z"/><circle id="sfera" class="l-cls-6" cx="240.24" cy="266.08" r="113.26"/><path id="top" class="l-cls-7" d="M446,81.44l-71.68-30L262,4.37a56.25,56.25,0,0,0-43.46,0L40.66,78.86l-6.15,2.57a56.18,56.18,0,0,0-23.89,19L240.24,198.2l229.62-97.78A56.18,56.18,0,0,0,446,81.44Z"/><path id="left" class="l-cls-8" d="M469.86,100.42,240.24,198.2V533.69a56.24,56.24,0,0,0,22-4.5l25.06-10.67,158.94-67.68a56.26,56.26,0,0,0,34.21-51.75V133.32A56.2,56.2,0,0,0,469.86,100.42Z"/><path class="l-cls-9 o-letter" d="M121.18,580.2A38.17,38.17,0,1,1,83,618.38a38.22,38.22,0,0,1,38.17-38.17m0-24.43a62.61,62.61,0,1,0,62.61,62.61,62.61,62.61,0,0,0-62.61-62.61Z"/><path class="l-cls-9 v-letter" d="M285.76,616.71c-1,1.6-3.5,6.23-7.91,14.28-3.85,7-10.1,16.88-13.94,23.63L238.36,613a100.14,100.14,0,0,0-54.57-42.89h0l61,100h0a24.21,24.21,0,0,0,20,10.91,21,21,0,0,0,11.51-3.31c3.43-2.17,4.12-.51,23-34.94,3.29-6,6.68-12.19,7.45-13.47a88.06,88.06,0,0,1,10.88-14.57v-32A107.89,107.89,0,0,0,285.76,616.71Z"/><path class="l-cls-9 r-letter" d="M366.63,564.07c-2.41.35-4.78.77-7.12,1.25v-9.55H335.08V681h24.43V590.25A117,117,0,0,1,409.24,589l5.44-23.82A143.21,143.21,0,0,0,366.63,564.07Z"/></g></g></g></svg>
+        </div>
+    </div>
+</div>

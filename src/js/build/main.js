@@ -120,6 +120,8 @@ const Application = (() => {
 
   const onMobileHamburgerClick = () => {
     const pageWrap = $1("#hamburger-menu")
+    const menuVoices = $(".c-mobile-nav__container-main a")
+
     pageWrap.addEventListener("click", function(){
       if( body.classList.contains("is_mobile_menu_open") ){
         body.classList.remove("is_mobile_menu_open")
@@ -127,8 +129,23 @@ const Application = (() => {
         body.classList.add("is_mobile_menu_open")
       }
     });
+
+    each(menuVoices, (i, menuVoice) => {
+      menuVoice.addEventListener("click", function(){
+        body.classList.remove("is_mobile_menu_open")
+      });
+    });
   }
 
+  const preloaderFadeOut = () => {
+    body.classList.add("c-loader--logo-holder-animated")
+    setTimeout(function(){
+      body.classList.remove("c-loader--logo-holder-animated")
+        setTimeout(function(){
+          body.classList.add("c-loader--preloader-white-gone")
+        },1600);
+    },1850);
+  }
 
 
   const scrollToLink = () => {
@@ -146,6 +163,7 @@ const Application = (() => {
     countDownManager();
     listenForms();
     onMobileHamburgerClick();
+    preloaderFadeOut();
   }
 
   return {

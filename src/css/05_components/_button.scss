@@ -14,7 +14,10 @@
   background: none;
   border: 0;
   cursor: pointer;
-  
+  span{
+    margin: 0;
+    margin-right: 0px!important;
+  }
   &:focus{
     outline: none;
   }
@@ -61,6 +64,24 @@
     stroke-width: 2px;
     // transform: scale(0);
     // transform-origin: 150% 50%;
+  }
+}
+
+.c-countdown_button .c-hex-button{
+  &:hover{
+    span{
+      color: $ovr_deep_purple!important;
+      position: relative;
+      z-index: 2;
+    }
+    .c-hex-svg{
+      z-index: 1;
+      position: relative;
+      color: $ovr_deep_purple;
+      path{
+      fill: #fff;
+      }
+    }
   }
 }
 
