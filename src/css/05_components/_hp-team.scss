@@ -1,5 +1,6 @@
 .c-team-section{
-    padding-bottom: 50px;
+	padding-bottom: 250px;
+
     @include cf();
     background-color: #fff;
     .c-title{
@@ -79,11 +80,11 @@ $white: #fff;
 	@include hex-size(300px, 260px, '37px 0 38px 0', '47px 10px 47px', '55px,55px');
 }
 @mixin hex-large() {
-	$height: 380px;
+	$height: 300px;
 	$width: $height;
-	$grid_width: 330px;
+	$grid_width: 260px;
 
-	@include hex-size(380px, 330px, '48px 0 48px 0', '57px 10px 57px', '70px,69px');
+	@include hex-size(300px, 260px, '37px 0 38px 0', '47px 10px 47px', '55px,55px');
 }
 
 .hex-container{
