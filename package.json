@@ -77,7 +77,11 @@
     "countdown-js": "^1.0.2",
     "flickity": "^2.1.2",
     "form-serialize": "^0.7.2",
+    "geojson2h3": "^1.0.1",
     "gsap": "^2.0.2",
+    "h3-js": "^3.2.0",
+    "mapbox-gl": "^0.51.0",
+    "node-notifier": "^5.3.0",
     "reqwest": "^2.0.5",
     "smooth-parallax": "^1.1.2",
     "smooth-scroll": "^14.2.1"

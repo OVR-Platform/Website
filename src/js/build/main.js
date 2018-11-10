@@ -7,6 +7,10 @@ import Countdown from 'countdown-js'
 import SmoothScroll from 'smooth-scroll'
 import reqwest from 'reqwest'
 import serialize from 'form-serialize'
+import mapboxgl from 'mapbox-gl'
+import geojson2h3 from 'geojson2h3'
+const h3 = require("h3-js");
+
 
 const body = $1("body")
 
@@ -155,6 +159,100 @@ const Application = (() => {
       });
   }
 
+  const config = ({
+    lng: -122.4,
+    lat: 37.7923539,
+    zoom: 11.5,
+    fillOpacity: 0.6,
+    colorScale: ['#ffffcc', '#78c679', '#006837']
+  })
+
+  function renderHexes(map, hexagons) {
+  
+    // Transform the current hexagon map into a GeoJSON object
+    const geojson = geojson2h3.h3SetToFeatureCollection(
+      Object.keys(hexagons),
+      hex => ({ value: hexagons[hex] })
+    )
+
+    const sourceId = 'h3-hexes'
+    const layerId = `${sourceId}-layer`
+    let source = map.getSource(sourceId)
+    
+    // Add the source and layer if we haven't created them yet
+    if (!source) {
+      map.addSource(sourceId, {
+        type: 'geojson',
+        data: geojson,
+      })
+      map.addLayer({
+        id: layerId,
+        source: sourceId,
+        type: 'fill',
+        interactive: false,
+        paint: {
+          'fill-outline-color': 'rgba(0,0,0,0)',
+        },
+      })
+      source = map.getSource(sourceId)
+    }
+
+    // Update the geojson data
+    source.setData(geojson)
+
+    // Update the layer paint properties, using the current config values
+    map.setPaintProperty(layerId, 'fill-color', {
+      property: 'value',
+      stops: [
+        [0, config.colorScale[0]],
+        [0.5, config.colorScale[1]],
+        [1, config.colorScale[2]]
+      ]
+    });
+
+    map.setPaintProperty(layerId, 'fill-opacity', config.fillOpacity);
+  }
+
+  const mapInit = () => {
+
+    const hexagons = () => {
+      const centerHex = h3.geoToH3(config.lat, config.lng, 8)
+      const kRing = h3.kRing(centerHex, 3)
+      // Reduce hexagon list to a map with random values
+      // console.log('kRing', kRing)
+      // kRing.reduce((res, hexagon) => {
+      //   console.log(...res)
+      // })
+
+      return {
+        '88283082a3fffff': 0.4249828858264375,
+        '88283082a1fffff': 0.4372496914160584,
+        '88283082a7fffff': 0.6383156026444929,
+        '88283080c9fffff': 0.0029371686960160126,
+        '88283082b5fffff': 0.7797984528233057,
+        '88283082bdfffff': 0.12086935004080979,
+        '88283082abfffff': 0.43410455265262327,
+        '88283082a9fffff': 0.24791156506714596,
+      }
+    }
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFudG9uZWxsaSIsImEiOiJjam9hNmljdHkwY2Y0M3JuejJrenhmMWE1In0.dC9b8oqj24iiSfm-qbNqmw';
+    const map = new mapboxgl.Map({
+      container: 'map',
+      center: [
+        config.lng,
+        config.lat,
+      ],
+      zoom: config.zoom,
+      style: 'mapbox://styles/mapbox/light-v9',
+    })
+
+    map.on('load', () => {
+      renderHexes(map, hexagons())
+    })
+  }
+
+
   const init = () => {
     scrollToLink();
     startParallax();
@@ -164,6 +262,7 @@ const Application = (() => {
     listenForms();
     onMobileHamburgerClick();
     preloaderFadeOut();
+    mapInit();
   }
 
   return {

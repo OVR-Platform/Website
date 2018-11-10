@@ -8,6 +8,7 @@
 import gulp from 'gulp'
 import gulpLoadPlugins from 'gulp-load-plugins'
 import browserSync from 'browser-sync'
+import notifier from 'node-notifier'
 import del from 'del'
 import runSequence from 'run-sequence'
 import watchify from 'watchify'
@@ -91,7 +92,13 @@ b.transform(babelify)
 function bundle() {
   return b.bundle()
     // log errors if they happen
-    .pipe($.plumber())
+    .on('error', (err) => {
+      console.log(err.stack)
+      notifier.notify({
+        title: 'Errore di compilazione',
+        message: err.message,
+      })
+    })
     .pipe(source(config.js_file_name))
     .pipe(buffer())
     .pipe($.if(argv.pretty, $.sourcemaps.init({ loadMaps: true })))
