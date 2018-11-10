@@ -160,11 +160,11 @@ const Application = (() => {
   }
 
   const config = ({
-    lng: -122.4,
-    lat: 37.7923539,
-    zoom: 11.5,
-    fillOpacity: 0.6,
-    colorScale: ['#ffffcc', '#78c679', '#006837']
+    lat: 46.0922495,
+    lng: 13.2312417,
+    zoom: 16,
+    fillOpacity: 0.3,
+    colorScale: ['#5F39BE', '#EC663C', '#0081DD']
   })
 
   function renderHexes(map, hexagons) {
@@ -191,7 +191,7 @@ const Application = (() => {
         type: 'fill',
         interactive: false,
         paint: {
-          'fill-outline-color': 'rgba(0,0,0,0)',
+          'fill-outline-color': 'rgba(75,83,0,0.9)',
         },
       })
       source = map.getSource(sourceId)
@@ -216,24 +216,18 @@ const Application = (() => {
   const mapInit = () => {
 
     const hexagons = () => {
-      const centerHex = h3.geoToH3(config.lat, config.lng, 8)
-      const kRing = h3.kRing(centerHex, 3)
-      // Reduce hexagon list to a map with random values
-      // console.log('kRing', kRing)
-      // kRing.reduce((res, hexagon) => {
-      //   console.log(...res)
-      // })
+      const centerHex = h3.geoToH3(config.lat, config.lng, 12)
+      const kRing = h3.kRing(centerHex, 40)
+      
 
-      return {
-        '88283082a3fffff': 0.4249828858264375,
-        '88283082a1fffff': 0.4372496914160584,
-        '88283082a7fffff': 0.6383156026444929,
-        '88283080c9fffff': 0.0029371686960160126,
-        '88283082b5fffff': 0.7797984528233057,
-        '88283082bdfffff': 0.12086935004080979,
-        '88283082abfffff': 0.43410455265262327,
-        '88283082a9fffff': 0.24791156506714596,
-      }
+      var data = Object.assign({}, kRing); 
+
+      var newData = Object.keys(data).reduce(function(obj,key){
+        obj[ data[key] ] = Math.random();
+        return obj;
+      },{});
+      return newData;
+
     }
 
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFudG9uZWxsaSIsImEiOiJjam9hNmljdHkwY2Y0M3JuejJrenhmMWE1In0.dC9b8oqj24iiSfm-qbNqmw';
