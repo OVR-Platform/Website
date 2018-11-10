@@ -216,7 +216,9 @@ const Application = (() => {
   const mapInit = () => {
 
     const hexagons = () => {
-      const centerHex = h3.geoToH3(config.lat, config.lng, 12)
+      var center = map.getCenter()
+      //console.log (center)
+      const centerHex = h3.geoToH3(center['lat'], center['lng'], 12)
       const kRing = h3.kRing(centerHex, 40)
       
 
@@ -242,8 +244,45 @@ const Application = (() => {
     })
 
     map.on('load', () => {
-      renderHexes(map, hexagons())
+      //renderHexes(map, hexagons())
     })
+    const zoomThreshold = 16;
+
+    map.on('moveend', function(){
+      if (map.getZoom() > zoomThreshold) {
+        renderHexes(map, hexagons())
+      } else {
+        
+      }
+    });
+  
+
+    map.addControl(new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken
+    }));
+
+
+    map.on('zoom', function() {
+      const sourceId = 'h3-hexes'
+      const layerId = `${sourceId}-layer`
+  
+      if (map.getZoom() > zoomThreshold) {
+        renderHexes(map, hexagons())
+        map.setLayoutProperty(layerId, 'visibility', 'visible');
+      } else {
+        map.setLayoutProperty(layerId, 'visibility', 'none');
+      }
+    });
+    
+  
+
+    map.on('mousemove', function (e) {
+      const h3Geo = h3.geoToH3(e.lngLat['lng'], e.lngLat['lat'], 12)
+      document.getElementById('info').innerHTML = JSON.stringify(e.lngLat) + ' = ' + h3Geo 
+        
+
+    });
+
   }
 
 
