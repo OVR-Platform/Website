@@ -278,7 +278,7 @@ const Application = (() => {
 
     map.on('mousemove', function (e) {
       const h3Geo = h3.geoToH3(e.lngLat['lng'], e.lngLat['lat'], 12)
-      document.getElementById('info').innerHTML = JSON.stringify(e.lngLat) + ' = ' + h3Geo 
+      document.getElementById('info').innerHTML = h3Geo + ' = ' +  JSON.stringify(e.lngLat) 
         
 
     });
