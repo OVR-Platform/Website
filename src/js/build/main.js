@@ -163,7 +163,7 @@ const Application = (() => {
     lat: 46.0922495,
     lng: 13.2312417,
     zoom: 16,
-    fillOpacity: 0.3,
+    fillOpacity: 0.2,
     colorScale: ['#5F39BE', '#EC663C', '#0081DD']
   })
 
@@ -244,7 +244,7 @@ const Application = (() => {
     })
 
     map.on('load', () => {
-      //renderHexes(map, hexagons())
+      // renderHexes(map, hexagons())
     })
     const zoomThreshold = 16;
 
@@ -277,7 +277,7 @@ const Application = (() => {
   
 
     map.on('mousemove', function (e) {
-      const h3Geo = h3.geoToH3(e.lngLat['lng'], e.lngLat['lat'], 12)
+      const h3Geo = h3.geoToH3(e.lngLat['lat'], e.lngLat['lng'], 12)
       document.getElementById('info').innerHTML = h3Geo + ' = ' +  JSON.stringify(e.lngLat) 
         
 
