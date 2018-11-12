@@ -82,6 +82,9 @@ const Application = (() => {
     }
   }
 
+  function mailchimpCallback (data) {
+    console.log(data)
+  }
 
   const menuManager = () => {
     window.removeEventListener("scroll", menuManagerOnScroll, false)
