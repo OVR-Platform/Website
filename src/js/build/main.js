@@ -277,10 +277,10 @@ const Application = (() => {
   
 
     map.on('mousemove', function (e) {
-      const h3Geo = h3.geoToH3(e.lngLat['lng'], e.lngLat['lat'], 12)
-      document.getElementById('info').innerHTML = h3Geo + ' = ' +  JSON.stringify(e.lngLat) 
-        
-
+      const h3Geo = h3.geoToH3( e.lngLat['lat'], e.lngLat['lng'], 12)
+      const GeoH3 = h3.h3ToGeo(h3Geo)
+      document.getElementById('info').innerHTML = 'coordinates = ' +  JSON.stringify(e.lngLat) + '<br> h3 conversion = ' + h3Geo + '<br> h3 centroid = ' + GeoH3
+      
     });
 
   }
