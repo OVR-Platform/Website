@@ -35,7 +35,17 @@
 }
 
 @media screen and ( max-width: 768px ){
+    .c-ecosystem-hex-svg--purple {
+        pointer-events: none;
+    }    
+    .c-download-section__content{
 
+        padding: 0px;
+        color: #fff;
+    }
+    .c-download-section__hex-bg{
+        opacity: 0;
+    }
     .c-features-button-holder .c-hex-button{
         margin-top: 20px;
     }
@@ -51,13 +61,6 @@
         padding-right: 0px;
     }
 
-    .c-technologies-section__hex-bg-2 {
-        height: auto;
-        width: 80%;
-        left: 0px;
-        float: right;
-        top: 0px;
-    }
 
     .c-technologies-section__skewed {
         left: -19vw;
@@ -218,7 +221,45 @@
             }
         }
     }
+    .c-technologies-section__hex-bg-2 {
+        height: auto;
+        width: 70%;
+        margin-right: 15%;
+        left: 0px;
+        float: right;
+        top: 0px;
+        position: relative;
+        transform: translate3d(0px, 0px, 0px)!important;
+        top: 160px;
+        svg path{
+            fill: #fff!important;
+        }
+        // #c-hex-map-jump-to,#c-hex-map-info{
+        //     color: #000;
+        //     stroke: #000;
+        // }
+        #download-path-1{
+            stroke: #000!important;
+        }
 
+    }
+    .mapboxgl-ctrl-geocoder{
+        left: 10px;
+        float: left!important;
+        min-width: 165px!important;
+
+    }
+
+    #c-hex-map-info{
+        font-size: 9px;
+    }
+
+    #c-hex-map-jump-to{
+        margin-bottom: 40px;
+    }
+    .c-ecosystem-section_content-container img{
+        margin-top: 0px;
+    }
     .c-advisor-section .c-title {
         text-align: center;
         padding-bottom: 20px;
@@ -257,6 +298,7 @@
     }
     .c-download-section{
         padding-top: 250px;
+        padding-bottom: 100px;
     }
 
     .c-download-section__content{
@@ -287,9 +329,7 @@
     .c-technologies-section .o-container{
         padding-top: 0px;
     }
-    .c-technologies-section__hex-bg-2{
-        display: none;
-    }
+
     .c-ecosystem-section_content-container {
         margin-top: 20%;
     }

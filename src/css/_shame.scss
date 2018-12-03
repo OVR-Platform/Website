@@ -1,1 +1,36 @@
 // SHAME ON YOU BAD DEVELOPER! That's THE place you were looking for.
+
+.exa{
+    transform-origin: initial;
+}
+
+#mama{
+    transform-origin: center center;
+}
+
+
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-10px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
+
+.schermivirtual,.mama-logo{
+    animation: float 4s ease-in-out infinite;
+}
+
+.schermivirtual-1{
+    animation-delay: 1s;
+}
+.schermivirtual-3{
+    animation-delay: 2s;
+}
+.mama-logo{
+    animation-delay: 1.5s;
+}

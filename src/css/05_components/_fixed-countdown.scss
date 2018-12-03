@@ -7,9 +7,9 @@
     bottom: 0px;
     z-index: 9999;
     color: #fff;
+    transition: all 350ms ease-in-out;
     .c-countdown_container{
         float: right;
-
     }
     span{
         margin-right: 20px;
@@ -17,9 +17,13 @@
     .o-container{
       background-color: $ovr_deep_purple;
       position: relative;
+      transition: background 350ms ease-in-out;
     }
     .c-curved{
       position: absolute;
+      path{
+        transition: all 350ms ease-in-out;
+      }
     }
     .c-curved-r{
       right: -81px;
@@ -43,4 +47,26 @@
     float: right;
     margin-top: 5px;
     margin-left: 25px;
+}
+
+
+.c-fixed-countdown--inverted{
+  color: $ovr_deep_purple!important;
+  *{
+    color: $ovr_deep_purple!important;
+  }
+  background-color: #fff!important;
+
+  .o-container{
+    background-color: #fff;
+  }
+  .c-curved path{
+    fill: #fff;
+  }
+  .c-hex-button{
+    color: $ovr_deep_purple;
+  }
+  .c-hex-button_svg .c-hex-svg path{
+    stroke: $ovr_deep_purple;
+  }
 }

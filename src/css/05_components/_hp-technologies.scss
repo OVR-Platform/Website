@@ -33,8 +33,33 @@
     left: 0px;
     top: 0px;
     path{
-        fill: $ovr_deep_purple;
-        stroke:$ovr_deep_purple;
+        fill: #ef631a;
+        stroke:#ef631a;
+    }
+    .c-hex-button_svg .c-hex-svg path{
+        stroke-width: 2px;
+        stroke: #fff!important;
+    }
+    .c-hex-button{
+        &:hover{
+            color: #ef631a;
+            svg path{
+                fill: #fff!important;
+            }
+        }
+    }
+    .c-hex-svg{
+        position: absolute;
+        pointer-events: none;
+        z-index: 2;
+
+    }
+    #c-map-hex{
+        z-index: 1;
+        position: relative;
+    }
+    .c-hex-button{
+        margin-left: calc(50% - 73px);
     }
 }
 
@@ -70,5 +95,89 @@
     top: calc( 50% - 100px );
     height: auto;
     z-index: 3;
+}
 
+#c-hex-map-info{
+    text-align: center;
+    color: #fff;
+    background: -webkit-linear-gradient($ovr_blue, $ovr_light_blue);
+    font-size: 12px;
+    margin-top: -35px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 20px;
+    z-index: 9;
+    position: relative;
+    width: 70%;
+    margin-left: 15%;
+}
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl{
+    border-radius: 30px;
+    
+}
+.mapboxgl-ctrl-top-right{
+    width: 100%;
+
+}
+.mapboxgl-ctrl-bottom-right, .mapboxgl-ctrl-bottom-left{
+    bottom: 70px!important;
+}
+.mapboxgl-ctrl-geocoder{
+    width: 60%;
+    left: -20%;
+    top: 55px;
+}
+
+#c-hex-map > div.mapboxgl-control-container > div.mapboxgl-ctrl-top-right > div:nth-child(2){
+    margin-top:25px;
+}
+a.mapboxgl-ctrl-logo{
+    margin-left: 4px;
+}
+
+.fullscreen-map{
+    #c-hex-map > div.mapboxgl-control-container > div.mapboxgl-ctrl-top-right > div:nth-child(2){
+        margin-top: 20px!important;
+    }
+    .mapboxgl-ctrl-geocoder{
+        left: 0px;
+        top: 0px;
+    }
+    .mapboxgl-ctrl-bottom-right, .mapboxgl-ctrl-bottom-left{
+        bottom: 0px!important;
+    }
+
+    #c-hex-map-info{
+        position: absolute;
+        z-index: 999999999;
+        display: block;
+        bottom: 50px;
+    }
+}
+
+#c-hex-map-info--fixed{
+    z-index: 999999999;
+    position: fixed;
+    bottom: 50px;
+}
+
+
+#remover {
+    margin: 0 auto;
+    background-color: #fff;
+    color: rgba(0,0,0,.5);
+    font-size: 11px;
+    padding: 0.2em;
+    border: 2px solid #9c9fa0;
+    border-radius: 20px;
+    /* box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); */
+    cursor: pointer;
+    position: absolute;
+    left: 0.7em;
+    top: 115px;
+    padding: 2px 10px;
+    height: 21px;
+}
+#remover:hover {
+    background-color:#ccc ;
 }
