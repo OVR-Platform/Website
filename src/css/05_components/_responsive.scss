@@ -159,11 +159,14 @@
         @include cf();
 
         .c-hex-button--big {
-            margin-left: calc( 50% - 75px );
+            clear: both;
             &:nth-child(2){
                 margin-top: 10px;
             }
         }
+    }
+    #intro svg{
+        margin-bottom: 50px;
     }
     .c-hero{
         height: 100vh;
@@ -209,17 +212,28 @@
 
 
     .c-features-button-holder {
-
+        margin-bottom: 10px;
         margin-top: 10px;
-        margin-bottom: 30px;
         width: 100%;
         .c-hex-button--big {
             margin-left: 0px;
-            clear: both;
-            &:nth-child(2), &:nth-child(3){
-                margin-top: 10px;
-            }
+            // clear: both;
+            // &:nth-child(2), &:nth-child(3){
+            //     margin-top: 10px;
+            // }
         }
+    }
+    .hex-grid{
+        max-width: 300px;
+        margin-left: calc(50% - 150px);
+    }
+    .c-features-button-holder--mobile{
+        overflow: scroll;
+        margin-bottom: 30px;
+        .c-features-button-holder{
+            width: 500px;
+        }
+
     }
     .c-technologies-section__hex-bg-2 {
         height: auto;
@@ -394,6 +408,9 @@
     .c-hero_content {
         padding-top: 100px;
     }
+    .c-fixed-countdown--inverted{
+        background-color: #fff!important;
+    }
 }
 
 
@@ -418,4 +435,13 @@
 .c-hex-button--filled.c-hex-button--blue .c-hex-svg path, .c-services-dot__dot .c-hex-svg path, .c-services-dot__dot .c-hex-svg path, .c-hero__scrolldown svg.c-hex-svg path{
     fill: url('#light-blue-gradient')!important;
     // fill: linear-gradient(to left top, #2fd7ff, #00c2fa, #00adf3, #0098ea, #0081dd);
+}
+
+
+@media screen and (max-width: 600px) and (min-height: 800px) {
+    .c-hero__scrolldown{
+        opacity: 1;
+        pointer-events: all;
+        bottom: 180px;
+    }
 }

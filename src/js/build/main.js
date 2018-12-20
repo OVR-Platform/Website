@@ -11,9 +11,264 @@ import mapboxgl from 'mapbox-gl'
 import geojson2h3 from 'geojson2h3'
 const h3 = require("h3-js");
 import inView from 'in-view'
-
-
 const body = $1("body")
+
+
+let final_list = [];
+
+
+var opt = new XMLHttpRequest();
+opt.addEventListener("load", reqListener);
+opt.open("GET", "prova.json");
+opt.send();
+
+function reqListener() {
+  final_list = JSON.parse(this.responseText);
+
+  // hex_test = ['8cad56762d08dff',
+  //   '8c2cd6cf6419dff',
+  //   '8ce14268e3911ff',
+  //   '8c7876a52db6dff',
+  //   '8c008e073356bff',
+  //   '8cdf9a555d241ff',
+  //   '8ccca26082559ff',
+  //   '8c8a6c176a1a7ff',
+  //   '8c0e026152413ff',
+  //   '8cf06ea06cda9ff',
+  //   '8c9326b5cd589ff',
+  //   '8c000ac91832bff',
+  //   '8c1f05065c563ff',
+  //   '8c380e86c909dff',
+  //   '8c0588a8c91a1ff',
+  //   '8cf16b0025621ff',
+  //   '8c8b4c8aac53bff',
+  //   '8c35006027a45ff',
+  //   '8cab8e728b16bff',
+  //   '8c8ee8d152543ff',
+  //   '8c8d4939dd431ff',
+  //   '8c933101311cdff',
+  //   '8c47800333ae5ff',
+  //   '8c115a948bb31ff',
+  //   '8cc10238dd1a5ff',
+  //   '8c0753ab2d0e7ff',
+  //   '8c3c19b5939d1ff',
+  //   '8cf123688408dff',
+  //   '8c0d18daa12a7ff',
+  //   '8cece6c882311ff',
+  //   '8c11b69a271c1ff',
+  //   '8cf31922d6ce5ff',
+  //   '8c77a4ce83951ff',
+  //   '8c0fa1b1282e5ff',
+  //   '8ccd3404954c1ff',
+  //   '8c10a6603cb31ff',
+  //   '8c2e5a98c7b1dff',
+  //   '8c5c8bb16018dff',
+  //   '8ceced0c494c1ff',
+  //   '8c0b652135231ff',
+  //   '8c3da6253b2bbff',
+  //   '8c3318c036489ff',
+  //   '8c1b6927401c5ff',
+  //   '8cf29136d4463ff',
+  //   '8c78a60017a09ff',
+  //   '8cf11daa62949ff',
+  //   '8ce1ab61631cbff',
+  //   '8cee2bcadc341ff']
+
+  // for (let i = 0; i < hex_test.length; i++) {
+  //   let triplet = form_h3_to_words(hex_test[i])
+  //   let generated_hex = from_triplet_to_h3(triplet)
+  //   if (hex_test[i] === generated_hex) {
+  //     console.log('ok')
+  //   } else {
+  //     console.log('cazzo!')
+  //   }
+  //   console.log(hex_test[i], triplet, generated_hex)
+  // }
+}
+
+
+function add(x, y, base) {
+  var z = [];
+  var n = Math.max(x.length, y.length); 191
+  var carry = 0;
+  var i = 0;
+  while (i < n || carry) {
+    var xi = i < x.length ? x[i] : 0;
+    var yi = i < y.length ? y[i] : 0;
+    var zi = carry + xi + yi;
+    z.push(zi % base);
+    carry = Math.floor(zi / base);
+    i++;
+  }
+  return z;
+}
+
+// Returns a*x, where x is an array of decimal digits and a is an ordinary
+// JavaScript number. base is the number base of the array x.
+function multiplyByNumber(num, x, base) {
+  if (num < 0) return null;
+  if (num == 0) return [];
+
+  var result = [];
+  var power = x;
+  while (true) {
+    if (num & 1) {
+      result = add(result, power, base);
+    }
+    num = num >> 1;
+    if (num === 0) break;
+    power = add(power, power, base);
+  }
+
+  return result;
+}
+
+function parseToDigitsArray(str, base) {
+  var digits = str.split('');
+  var ary = [];
+  for (var i = digits.length - 1; i >= 0; i--) {
+    var n = parseInt(digits[i], base);
+    if (isNaN(n)) return null;
+    ary.push(n);
+  }
+  return ary;
+}
+
+function convertBase(str, fromBase, toBase) {
+  var digits = parseToDigitsArray(str, fromBase);
+  if (digits === null) return null;
+
+  var outArray = [];
+  var power = [1];
+  for (var i = 0; i < digits.length; i++) {
+    if (digits[i]) {
+      outArray = add(outArray, multiplyByNumber(digits[i], power, toBase), toBase);
+    }
+    power = multiplyByNumber(fromBase, power, toBase);
+  }
+
+  var out = '';
+  for (var i = outArray.length - 1; i >= 0; i--) {
+    out += outArray[i].toString(toBase);
+  }
+  return out;
+}
+
+
+let combinations_vocab = {
+  0: '000',
+  1: '001',
+  2: '010',
+  3: '011',
+  4: '100',
+  5: '101',
+  6: '110',
+  7: '111',
+  8: '002',
+  9: '012',
+  10: '020',
+  11: '021',
+  12: '022',
+  13: '102',
+  14: '112',
+  15: '120',
+  16: '121',
+  17: '122',
+  18: '200',
+  19: '201',
+  20: '202',
+  21: '210',
+  22: '211',
+  23: '212',
+  24: '220',
+  25: '221',
+  26: '222'
+}
+
+
+const from_triplet_to_h3 = (triplet) => {
+  let h3_invariant_head = '10001100'
+  let h3_invariant_tail = '111111111'
+
+  let triplet_adj = [];
+  let str_value = '';
+
+  for (let i = 0; i < triplet.length; i++) {
+    for (let j = 0; j < final_list.length; j++) {
+      if (final_list[j] === triplet[i]) {
+        str_value = j.toString()
+      }
+    }
+    let length_string = str_value.length
+
+    if (length_string < 5) {
+      for (let n = 0; n < 5 - length_string; n++) {
+        str_value = '0' + str_value
+      }
+    }
+
+    triplet_adj.push(str_value)
+  }
+
+
+  let first_trinary_code = triplet_adj[0].substring(0, 1) + triplet_adj[1].substring(0, 1) + triplet_adj[2].substring(0, 1)
+  let first_integer_value = 0
+
+  for (let key in combinations_vocab) {
+    if (combinations_vocab[key] === first_trinary_code) {
+      first_integer_value = key
+    }
+  }
+
+  let full_integer = (first_integer_value).toString() + triplet_adj[0].substring(1) + triplet_adj[1].substring(1) + triplet_adj[2].substring(1)
+  let binary_full_integer = convertBase(full_integer, 10, 2)
+  let binary_full_integer_length = binary_full_integer.length
+
+
+  for (let i = 0; i < 43 - binary_full_integer_length; i++) {
+    binary_full_integer = '0' + binary_full_integer
+  }
+
+  let whole_binary = h3_invariant_head + binary_full_integer + h3_invariant_tail
+  let h3_index = convertBase(whole_binary, 2, 16)
+  return h3_index
+}
+
+
+
+const form_h3_to_words = (h3_address) => {
+
+  let binary = convertBase(h3_address, 16, 2)
+
+  let binary_clean = binary.substr(8, 43)
+
+  let integer = parseInt(binary_clean, 2)
+  let str_integer = integer.toString()
+
+  let integer_length = str_integer.length
+
+
+  if (integer_length < 13) {
+    for (let i = 0; i < 13 - integer_length; i++) {
+      str_integer = '0' + str_integer
+    }
+  }
+
+
+  let integer_first_value = str_integer[0]
+
+  let first_word_idx = parseInt(combinations_vocab[parseInt(integer_first_value)].substring(0, 1) + str_integer.substring(1, 5))
+  let first_word = final_list[first_word_idx]
+
+  let second_word_idx = parseInt(combinations_vocab[parseInt(integer_first_value)][1] + str_integer.substring(5, 9))
+  let second_word = final_list[second_word_idx]
+
+  let third_word_idx = parseInt(combinations_vocab[parseInt(integer_first_value)][2] + str_integer.substring(9))
+  let third_word = final_list[third_word_idx]
+
+  return [first_word, second_word, third_word]
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
   document.documentElement.className = 'js'
@@ -25,7 +280,6 @@ Application.mapInit();
 }, 250))
 
 window.addEventListener('load', () => {
-
 })
 
 
@@ -277,8 +531,7 @@ const Application = (() => {
 
         const h3Geo = h3.geoToH3(ev.result.geometry.coordinates[0], ev.result.geometry.coordinates[1], 12)
         // document.getElementById('c-hex-map-info').innerHTML = h3Geo + ' = ' +  JSON.stringify(e.lngLat) 
-        document.getElementById('c-hex-map-info').innerHTML = 'OVRLandID = ' +h3Geo 
-        console.log(h3Geo);
+        document.getElementById('c-hex-map-info').innerHTML = 'OVRLandID = ' + h3Geo 
       });
 
 
@@ -297,11 +550,11 @@ const Application = (() => {
           if (switchy.className === 'on') {
               switchy.setAttribute('class', 'off');
               map.setLayoutProperty('mapbox-mapbox-satellite', 'visibility', 'none');
-              switchy.innerHTML = 'Satellite View';
+              switchy.innerHTML = 'Satellite';
           } else {
               switchy.setAttribute('class', 'on');
               map.setLayoutProperty('mapbox-mapbox-satellite', 'visibility', 'visible');
-              switchy.innerHTML = 'Streets View';
+              switchy.innerHTML = 'Streets';
           }
       });
     })
@@ -380,7 +633,8 @@ const Application = (() => {
     map.on('mousemove', function (e) {
       const h3Geo = h3.geoToH3(e.lngLat['lat'], e.lngLat['lng'], 12)
       // document.getElementById('c-hex-map-info').innerHTML = h3Geo + ' = ' +  JSON.stringify(e.lngLat) 
-      document.getElementById('c-hex-map-info').innerHTML = 'OVRLandID = ' +h3Geo 
+      document.getElementById('c-hex-map-info').innerHTML = 'OVRLandID = ' + form_h3_to_words(h3Geo)[0] + "." + form_h3_to_words(h3Geo)[1] + "." + form_h3_to_words(h3Geo)[2] 
+      // console.log(form_h3_to_words(h3Geo))
     });
 
   }
@@ -400,7 +654,6 @@ const Application = (() => {
     scndSVGTL.addPause(400).play();
 
     inView('#intro').once('enter', function(){
-      console.log('entere');
       var tl = new TimelineMax({repeat:-1});
       tl.to('#base', 1.8, {opacity: 1})
       tl.staggerTo('.scn-8 path', 0.4, {opacity:1}, 0.03, "-=0.8")
