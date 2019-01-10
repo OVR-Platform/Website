@@ -12,6 +12,7 @@ import geojson2h3 from 'geojson2h3'
 const h3 = require("h3-js");
 import inView from 'in-view'
 const body = $1("body")
+var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent) && screen.width > 1000;
 
 
 let final_list = [];
@@ -288,7 +289,11 @@ window.addEventListener('load', () => {
 const Application = (() => {
 
   let startParallax = () => {
-    SmoothParallax.init();
+    if (!is_safari){
+      SmoothParallax.init();
+    } else {
+      document.body.classList.add('is_safari')
+    }
   }
 
   const reInit = () => {
@@ -324,7 +329,7 @@ const Application = (() => {
 
     if (elem != null){
       var flktyTimeline = new Flickity(elem, {
-        cellAlign: 'left',
+        cellAlign: 'center',
         cellSelector: '.c-services-dot__container',
         prevNextButtons: false,
         adaptiveHeight: true,
@@ -429,8 +434,8 @@ const Application = (() => {
     lat: 46.0922495,
     lng: 13.2312417,
     zoom: 0,
-    fillOpacity: 0.2,
-    colorScale: ['#5F39BE', '#af3367','#1a0731', '#EC663C', '#0081DD']
+    fillOpacity: 0.4,
+    colorScale: ['#5F39BE', '#ffffff','#1a0731', '#EC663C', '#0081DD']
   })
 
   function renderHexes(map, hexagons) {
@@ -457,7 +462,7 @@ const Application = (() => {
         type: 'fill',
         interactive: false,
         paint: {
-          'fill-outline-color': 'rgba(75,83,0,0.9)',
+          'fill-outline-color': 'rgba(255,255,255,1.9)',
         },
       })
       source = map.getSource(sourceId)

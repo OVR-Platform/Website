@@ -12,6 +12,9 @@
     left: 0px;
     z-index: 5;
     top:0px;
+    .is_safari &{
+        top: -120px;
+    }
 }
 
 .c-ecosystem-hex-svg{

@@ -35,6 +35,15 @@
     z-index: 0;
   }
 
+  .is_safari{
+    .c-third-section__hex-bg-1{
+      top: 50%;
+    }
+    .c-third-section__hex-bg-2{
+      top: 40%;
+    }
+  }
+
   .c-features-button-holder{
     margin-top: 50px;
     margin-bottom: 30px;
