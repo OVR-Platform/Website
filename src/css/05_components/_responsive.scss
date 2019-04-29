@@ -33,8 +33,19 @@
         display:none;
     }
 }
-
+@media screen and ( min-width: 769px ){
+    #ecosystem{
+        display: none;
+    }
+}
 @media screen and ( max-width: 768px ){
+    .c-ecosystem-hex-svg--container{
+        // position:relative!important;
+    }
+    #ecosystem-d{
+        display: none;
+    }
+
     .c-ecosystem-hex-svg--purple {
         pointer-events: none;
     }    
@@ -94,6 +105,38 @@
         top: 0px;
         transform: scale(1.5) translateY(-20px);
     }
+    .c-third-section__hex-bg-1{
+        height: 450px;
+        width: 450px;
+        left: -380px;
+        opacity: 0.3;
+
+    }
+    .c-third-section__hex-bg-2 {
+        height: 250px;
+        width: 250px;
+        right: -150px;
+        opacity: 0.3;
+        z-index: 0;
+        top: 00px;
+    }
+    .c-third-section{
+        top: 0px;
+        padding-left: 5px;
+        padding-top: 250px;
+    }
+    .c-third-section .o-half{
+        @include col(1/1);
+    }
+    .c-ecosystem-hex-svg{
+        display: none;
+    }
+    .c-ecosystem-section_content-container{
+        display: none;
+    }
+    #features{
+        margin-top: 150px;
+    }
 }
 
 @media screen and (max-width: 600px){
@@ -134,7 +177,7 @@
     .c-hero_content{
         padding-left: 0px;
     }
-    .c-title h2 {
+    .c-title h2, .c-title h1 {
         font-weight: 400;
         line-height: 2rem;
     }
@@ -189,26 +232,7 @@
     .c-second-section__skewed{
         bottom: -100px;
     }
-    .c-third-section__hex-bg-1{
-        height: 450px;
-        width: 450px;
-        left: -380px;
-        opacity: 0.3;
 
-    }
-    .c-third-section__hex-bg-2 {
-        height: 250px;
-        width: 250px;
-        right: -150px;
-        opacity: 0.3;
-        z-index: 0;
-        top: 00px;
-    }
-    .c-third-section{
-        top: 0px;
-        padding-left: 5px;
-        padding-top: 250px;
-    }
 
 
     .c-features-button-holder {
@@ -292,6 +316,7 @@
     
 
     .c-team-section{
+        margin-top: 100px;
         padding-bottom: 20px;
     }
     .c-advisor-section{
@@ -406,7 +431,8 @@
         top: 19px;
     }
     .c-hero_content {
-        padding-top: 100px;
+        padding-top: 25vh;
+
     }
     .c-fixed-countdown--inverted{
         background-color: #fff!important;

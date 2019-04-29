@@ -5001,6 +5001,11 @@ pify@^2.0.0, pify@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
 
+pinch-zoom-js@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/pinch-zoom-js/-/pinch-zoom-js-2.3.0.tgz#fe361eb9ffe8e15d95c66505bb6c45710ddbff4e"
+  integrity sha512-VgpjftesKI207C6tFgdg7qDSiU9pkYxevc+rmzvx7i4onFQ/+qyiSiHHRa02biN9ROR0UM5erWPuEiuMNESREw==
+
 pinkie-promise@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/pinkie-promise/-/pinkie-promise-2.0.1.tgz#2135d6dfa7a358c069ac9b178776288228450ffa"

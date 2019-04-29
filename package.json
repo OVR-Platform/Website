@@ -84,6 +84,7 @@
     "h3-js": "^3.2.0",
     "in-view": "^0.6.1",
     "mapbox-gl": "^0.51.0",
+    "pinch-zoom-js": "^2.3.0",
     "readlines": "^0.2.0",
     "reqwest": "^2.0.5",
     "smooth-parallax": "^1.1.2",
