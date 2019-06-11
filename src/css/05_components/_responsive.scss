@@ -213,6 +213,9 @@
     }
     .c-hero{
         height: 100vh;
+        .c-download-section__buttons-holder{
+            margin-top: 10px;
+        }
     }
     .c-hero_svg-mask {
         bottom: -13px;
@@ -323,7 +326,16 @@
         padding-top: 20px;
     }
     .c-footer__content {
-        margin-top: 50px;
+        padding-top: 100px;
+    }
+    #whitepaper-download{
+        padding-top: 50px;
+        margin-top: 0px;
+
+    }
+    #whitepaper-download .c-title {
+        text-align: left;
+        margin-bottom: 50px;
     }
     .c-contact--holder{
         margin-top: 200px;
@@ -357,6 +369,8 @@
     }
     .c-timeline-section{
         padding-bottom: 0px;
+        padding-top: 120px;
+    
     }
     .c-download-section__subscribe_holder input {
         position: absolute;

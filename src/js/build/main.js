@@ -508,17 +508,15 @@ const Application = (() => {
 
   function renderHexes(map, hexagons) {
   
-    // Transform the current hexagon map into a GeoJSON object
     const geojson = geojson2h3.h3SetToFeatureCollection(
       Object.keys(hexagons),
       hex => ({ value: hexagons[hex] })
     )
-
+    
     const sourceId = 'h3-hexes'
     const layerId = `${sourceId}-layer`
     let source = map.getSource(sourceId)
     
-    // Add the source and layer if we haven't created them yet
     if (!source) {
       map.addSource(sourceId, {
         type: 'geojson',
@@ -570,7 +568,6 @@ const Application = (() => {
         return obj;
       },{});
       return newData;
-
     }
 
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFudG9uZWxsaSIsImEiOiJjam9hNmljdHkwY2Y0M3JuejJrenhmMWE1In0.dC9b8oqj24iiSfm-qbNqmw';
@@ -606,8 +603,6 @@ const Application = (() => {
         // document.getElementById('c-hex-map-info').innerHTML = h3Geo + ' = ' +  JSON.stringify(e.lngLat) 
         document.getElementById('c-hex-map-info').innerHTML = 'OVRLandID = ' + h3Geo 
       });
-
-
 
 
       map.addLayer({
@@ -708,6 +703,8 @@ const Application = (() => {
       // document.getElementById('c-hex-map-info').innerHTML = h3Geo + ' = ' +  JSON.stringify(e.lngLat) 
       document.getElementById('c-hex-map-info').innerHTML = 'OVRLandID = ' + form_h3_to_words(h3Geo)[0] + "." + form_h3_to_words(h3Geo)[1] + "." + form_h3_to_words(h3Geo)[2] 
       // console.log(form_h3_to_words(h3Geo))
+
+      // console.log(h3.h3ToGeoBoundary(h3Geo));
     });
 
   }

@@ -49,9 +49,9 @@
 }
 .c-download-section__buttons-holder{
     @include cf();
-    img{
+    img,a {
         max-width: auto;
-        max-height: 35px;
+        max-height: 45px;
         margin-bottom: 10px;
         &:first-child{
             margin-right: 20px;

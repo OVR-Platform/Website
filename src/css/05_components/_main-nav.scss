@@ -7,10 +7,18 @@
   top: 0;
   left: 0;
   background-color: transparent;
+  .c-whitepp-language-icon{
+    max-width: 20px;
+    float: right;
+    height: 20px;
+    top: -12px;
+    position: relative;
+    margin-left: 10px;
+  }
 }
 
 .is-scrolling{
-  .main-logo-letters{
+  .main-logo-letters, .c-whitepp-language-icon{
     path{
       fill : #1D1D1B;
     }

@@ -1,5 +1,4 @@
 
-
 .c-footer{
     @include cf();
 
@@ -54,7 +53,7 @@
     width: 100%;
     left: 0px;
     z-index: 5;
-    margin-top: 300px;
+    padding-top: 250px;
     padding-bottom: 100px;
     color: #fff;
     background-color: $ovr_deep_purple;
@@ -91,4 +90,44 @@
     padding: 150px;
     height: 500px;
     padding-top: 0px;
+}
+
+.c-whitepaper-download{
+    position: relative;
+    z-index: 2;
+    top: -18px;
+    margin-right: 50px;
+    float: left;
+    width: 46px;
+
+    img{
+       height: 50px;
+       transition: 350ms all ease-in-out;
+    }
+    span{
+        color: #fff;
+        font-size: 14px;
+        font-weight: 200;
+        clear: both;
+        width: 100%;
+        display: inline-block;
+        margin-top: 8px;
+        text-align: center
+    }
+    &:hover{
+        cursor: pointer;
+        img{
+            transform: scale(0.9);
+        }
+    }
+}
+
+#whitepaper-download{
+    background-color: $ovr_deep_purple;
+    margin-top: 150px;
+    padding-top: 50px;
+    color:#fff;
+    .c-title{
+        text-align: center;
+    }
 }
