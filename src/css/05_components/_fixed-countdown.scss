@@ -18,6 +18,7 @@
       background-color: $ovr_deep_purple;
       position: relative;
       transition: background 350ms ease-in-out;
+      min-height: 50px;
     }
     .c-curved{
       position: absolute;
@@ -57,15 +58,6 @@
     color: $ovr_deep_purple!important;
   }
 
-  .c-social-icon{
-    svg path{
-      fill: $ovr_deep_purple;
-    }
-    .medst0{
-      fill: #fff;
-    }
-  }
-
   .o-container{
     background-color: #fff;
   }
@@ -80,13 +72,62 @@
   }
 }
 
-.c-social-icon{
-  
-  position: relative;
-  top: 5px;
-  margin-left: 10px;
-  svg{
-    max-width: 15px;
-    max-height: 15px;
+
+
+.c-fixed-social{
+  position: fixed;
+  right: 0px;
+  z-index: 20;
+  top: calc( 50% - 60px );
+  .c-social-icon{
+    position: relative;
+    display: block;
+    @include cf();
+    clear: both;
+    text-align: center;
+    line-height: 45px;
+    background-color: $ovr_deep_purple;
+    width: 50px; 
+    padding-top: 10px;
+    padding-bottom: 10px;
+    svg{
+      max-width: 18px;
+      max-height: 18px;
+      position: relative;
+      z-index: 21;
+    }
   }
+  &::before{
+    height: 50px;
+    width: 50px;
+    content: "";
+    background-color: $ovr_deep_purple;
+    position: absolute;
+    top: -30px;
+    border-top-left-radius: 50%;
+    z-index: 18;
+  }
+  &::after{
+    height: 50px;
+    width: 50px;
+    content: "";
+    background-color: $ovr_deep_purple;
+    position: absolute;
+    bottom: -30px;
+    border-bottom-left-radius: 50%;
+    z-index: 18;
+  }
+  // .c-curved-r{
+  //   right: -81px;
+  //   max-height: 50px;
+  //   max-width: 82px;
+  //   top: 0px;
+  //   transform: rotate(180deg);
+  // }
+  // .c-curved-l{
+  //   left: -81px;
+  //   max-height: 50px;
+  //   max-width: 82px;
+  //   top: 0px;
+  // }
 }

@@ -368,49 +368,51 @@ const Application = (() => {
   }
 
   const initCarousels = () => {
-    var carousel = new Flickity('.js-tab-slider', {
-      cellAlign: 'left',
-      contain: true,
-      pageDots: false,
-      freeScroll: false,
-      prevNextButtons: false,
-      imagesLoaded: true,
-      adaptiveHeight: true,
-      hash: true,
-      pauseAutoPlayOnHover: false,
-      draggable: false
-    })
-
-    const featuresButton = $('.js-feature-tab-button')
-    each( featuresButton, (i, featureButton) => {
-      featureButton.addEventListener('click', function(){
-        const id = this.dataset.id;
-        carousel.select(parseInt(id, 10));
-        each( featuresButton, function (l, fB) {
-          fB.classList.remove('js-button--active');
-        });
-        this.classList.add('js-button--active');
-      });
-    })
-
-    var elem = document.querySelector('.c-stories-dots__container')
-
-    if (elem != null){
-      var flktyTimeline = new Flickity(elem, {
-        cellAlign: 'center',
-        cellSelector: '.c-services-dot__container',
-        prevNextButtons: false,
-        adaptiveHeight: true,
+    if ($('.js-tab-slider').length > 0){
+      var carousel = new Flickity('.js-tab-slider', {
+        cellAlign: 'left',
+        contain: true,
         pageDots: false,
-        contain: true
-      });
+        freeScroll: false,
+        prevNextButtons: false,
+        imagesLoaded: true,
+        adaptiveHeight: true,
+        hash: true,
+        pauseAutoPlayOnHover: false,
+        draggable: false
+      })
 
-      each(elem.getElementsByClassName('c-services-dot__container'), (i, dot_container) => {
-        dot_container.addEventListener( 'click', function(){
-          // console.log(this.dataset.index - 1);
-          flktyTimeline.select( this.dataset.index );
+      const featuresButton = $('.js-feature-tab-button')
+      each( featuresButton, (i, featureButton) => {
+        featureButton.addEventListener('click', function(){
+          const id = this.dataset.id;
+          carousel.select(parseInt(id, 10));
+          each( featuresButton, function (l, fB) {
+            fB.classList.remove('js-button--active');
+          });
+          this.classList.add('js-button--active');
         });
       })
+
+      var elem = document.querySelector('.c-stories-dots__container')
+
+      if (elem != null){
+        var flktyTimeline = new Flickity(elem, {
+          cellAlign: 'center',
+          cellSelector: '.c-services-dot__container',
+          prevNextButtons: false,
+          adaptiveHeight: true,
+          pageDots: false,
+          contain: true
+        });
+
+        each(elem.getElementsByClassName('c-services-dot__container'), (i, dot_container) => {
+          dot_container.addEventListener( 'click', function(){
+            // console.log(this.dataset.index - 1);
+            flktyTimeline.select( this.dataset.index );
+          });
+        })
+      }
     }
   }
 
@@ -422,21 +424,23 @@ const Application = (() => {
     window.removeEventListener("scroll", menuManagerOnScroll, false)
     window.addEventListener("scroll", menuManagerOnScroll, false)
     function menuManagerOnScroll(){
-      const hero = $1(".c-hero")
-      const pageWrap = $1("#page-wrap")
-      const heroHeight = hero.offsetHeight;
+      if ($1(".c-hero") ){ 
+        const hero = $1(".c-hero")
+        const pageWrap = $1("#page-wrap")
+        const heroHeight = hero.offsetHeight;
 
-      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      // console.log(scrollTop);
-      // console.log(heroHeight);
-      // console.log(footerOffset);
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        // console.log(scrollTop);
+        // console.log(heroHeight);
+        // console.log(footerOffset);
 
-      // pageWrap menu
-      if ( scrollTop > heroHeight - 500 ){
-        pageWrap.classList.add("is-scrolling")
+        // pageWrap menu
+        if ( scrollTop > heroHeight - 500 ){
+          pageWrap.classList.add("is-scrolling")
 
-      } else {
-        pageWrap.classList.remove("is-scrolling")
+        } else {
+          pageWrap.classList.remove("is-scrolling")
+        }
       }
     }
   }
@@ -482,13 +486,15 @@ const Application = (() => {
   }
 
   const switchFooterColor = () => {
-    window.onscroll = function(ev) {
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        document.getElementById('countdown').classList.add('c-fixed-countdown--inverted')
-      } else {
-        document.getElementById('countdown').classList.remove('c-fixed-countdown--inverted')
-      }
-    };
+    if(document.getElementById('countdown')){
+      window.onscroll = function(ev) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+          document.getElementById('countdown').classList.add('c-fixed-countdown--inverted')
+        } else {
+          document.getElementById('countdown').classList.remove('c-fixed-countdown--inverted')
+        }
+      };
+    }
   }
 
   const scrollToLink = () => {
@@ -551,8 +557,9 @@ const Application = (() => {
   }
 
   const mapInit = () => {
+    if (document.getElementById('c-hex-map-mask')){
     let mapMaskHeight = document.getElementById('c-hex-map-mask').clientHeight - 2;
-    document.getElementById("c-hex-map").style.height = mapMaskHeight;
+    document.getElementById("c-hex-map").style.height = mapMaskHeight + 'px';
 
     const hexagons = () => {
       var center = map.getCenter()
@@ -702,11 +709,168 @@ const Application = (() => {
       const h3Geo = h3.geoToH3(e.lngLat['lat'], e.lngLat['lng'], 12)
       // document.getElementById('c-hex-map-info').innerHTML = h3Geo + ' = ' +  JSON.stringify(e.lngLat) 
       document.getElementById('c-hex-map-info').innerHTML = 'OVRLandID = ' + form_h3_to_words(h3Geo)[0] + "." + form_h3_to_words(h3Geo)[1] + "." + form_h3_to_words(h3Geo)[2] 
-      // console.log(form_h3_to_words(h3Geo))
+      console.log(h3Geo)
 
       // console.log(h3.h3ToGeoBoundary(h3Geo));
     });
+    }
+  }
 
+  const bountyMapInit = () => {
+    if (document.getElementById('c-bounty-hex-map')){
+      const hexagons = () => {
+        var center = map.getCenter()
+        //console.log (center)
+        const centerHex = h3.geoToH3(center['lat'], center['lng'], 12)
+        const kRing = h3.kRing(centerHex, 40)
+
+
+        var data = Object.assign({}, kRing); 
+
+        var newData = Object.keys(data).reduce(function(obj,key){
+          obj[ data[key] ] = Math.random();
+          return obj;
+        },{});
+        return newData;
+      }
+
+      mapboxgl.accessToken = 'pk.eyJ1IjoibWFudG9uZWxsaSIsImEiOiJjam9hNmljdHkwY2Y0M3JuejJrenhmMWE1In0.dC9b8oqj24iiSfm-qbNqmw';
+      const map = new mapboxgl.Map({
+        container: 'c-bounty-hex-map',
+        center: [
+          config.lng,
+          config.lat,
+        ],
+        zoom: config.zoom,
+        style: 'mapbox://styles/mapbox/light-v9',
+      })
+
+
+
+
+      var geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken
+      });
+
+      map.addControl(geocoder);
+
+      map.on('load', () => {
+        // renderHexes(map, hexagons())
+        geocoder.on('result', function(ev) {
+
+          map.flyTo({
+            center:[ev.result.geometry.coordinates[0], ev.result.geometry.coordinates[1]], 
+            zoom:18
+          });
+
+          const h3Geo = h3.geoToH3(ev.result.geometry.coordinates[0], ev.result.geometry.coordinates[1], 12)
+          // document.getElementById('c-hex-map-info').innerHTML = h3Geo + ' = ' +  JSON.stringify(e.lngLat) 
+          document.getElementById('c-hex-map-info').innerHTML = 'OVRLandID = ' + h3Geo 
+        });
+
+
+        map.addLayer({
+          id: 'mapbox-mapbox-satellite',
+          source: {"type": "raster",  "url": "mapbox://mapbox.satellite", "tileSize": 256},
+          type: "raster"
+        });
+        map.setLayoutProperty('mapbox-mapbox-satellite', 'visibility', 'none');
+
+        var switchy = document.getElementById('remover');
+        switchy.addEventListener("click", function(){
+            switchy = document.getElementById('remover');
+            if (switchy.className === 'on') {
+                switchy.setAttribute('class', 'off');
+                map.setLayoutProperty('mapbox-mapbox-satellite', 'visibility', 'none');
+                switchy.innerHTML = 'Satellite';
+            } else {
+                switchy.setAttribute('class', 'on');
+                map.setLayoutProperty('mapbox-mapbox-satellite', 'visibility', 'visible');
+                switchy.innerHTML = 'Streets';
+            }
+        });
+      })
+
+      const zoomThreshold = 16;
+
+      map.on('moveend', function(){
+        if (map.getZoom() > zoomThreshold) {
+          renderHexes(map, hexagons())
+        } else {
+
+        }
+      });
+
+
+      let fullScreenChange;  
+
+      if ('onfullscreenchange' in window.document) {
+        fullScreenChange = 'fullscreenchange';
+      } else if ('onmozfullscreenchange' in window.document) {
+        fullScreenChange = 'mozfullscreenchange';
+      } else if ('onwebkitfullscreenchange' in window.document) {
+        fullScreenChange = 'webkitfullscreenchange';
+      } else if ('onmsfullscreenchange' in window.document) {
+        fullScreenChange = 'MSFullscreenChange';
+      }
+
+      function onFullscreenChange() {
+        body.classList.toggle("fullscreen-map");
+      }
+
+      window.document.addEventListener(fullScreenChange, onFullscreenChange);
+
+
+      map.on('zoom', function() {
+        const sourceId = 'h3-hexes'
+        const layerId = `${sourceId}-layer`
+
+        if (map.getZoom() > zoomThreshold) {
+          renderHexes(map, hexagons())
+          if (map.getLayer("h3-hexes-layer")) {
+            map.setLayoutProperty(layerId, 'visibility', 'visible');
+          }
+        } else {
+          if (map.getLayer("h3-hexes-layer")) {
+            map.setLayoutProperty(layerId, 'visibility', 'none');
+          }
+        }
+
+      });
+
+        // Add geolocate control to the map.
+        var geoLocate = new mapboxgl.GeolocateControl();
+        map.addControl(geoLocate);
+        geoLocate.on('geolocate', function(e) {
+            map.flyTo({
+              center:[e.coords.longitude, e.coords.latitude], 
+              zoom:18
+            });
+        });
+
+        map.addControl(new mapboxgl.FullscreenControl());
+
+
+      document.getElementById('c-hex-map-jump-to').addEventListener('click', function () {
+          // Fly to a random location by offsetting the point -74.50, 40
+          // by up to 5 degrees.
+          map.flyTo({
+              zoom: 18,
+              center: [
+                -73.98760251687273,
+                40.73158848778172]
+          }); 
+      });
+
+      map.on('mousemove', function (e) {
+        const h3Geo = h3.geoToH3(e.lngLat['lat'], e.lngLat['lng'], 12)
+        // document.getElementById('c-hex-map-info').innerHTML = h3Geo + ' = ' +  JSON.stringify(e.lngLat) 
+        document.getElementById('c-hex-map-info').innerHTML = 'OVRLandID = ' + form_h3_to_words(h3Geo)[0] + "." + form_h3_to_words(h3Geo)[1] + "." + form_h3_to_words(h3Geo)[2] 
+        console.log(h3Geo)
+
+        // console.log(h3.h3ToGeoBoundary(h3Geo));
+      });
+    }
   }
 
   const fadeInScndS = () => {
@@ -796,6 +960,7 @@ const Application = (() => {
     onMobileHamburgerClick();
     preloaderFadeOut();
     mapInit();
+    bountyMapInit();
     switchFooterColor();
     pinchZoom();
   }
