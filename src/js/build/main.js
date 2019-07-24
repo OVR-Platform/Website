@@ -9,6 +9,8 @@ import reqwest from 'reqwest'
 import serialize from 'form-serialize'
 import mapboxgl from 'mapbox-gl'
 import geojson2h3 from 'geojson2h3'
+import GeoJSON from 'geojson'
+import L from 'leaflet'
 const h3 = require("h3-js");
 import inView from 'in-view'
 import PinchZoom from 'pinch-zoom-js'
@@ -518,7 +520,6 @@ const Application = (() => {
       Object.keys(hexagons),
       hex => ({ value: hexagons[hex] })
     )
-    
     const sourceId = 'h3-hexes'
     const layerId = `${sourceId}-layer`
     let source = map.getSource(sourceId)
@@ -569,7 +570,6 @@ const Application = (() => {
       
 
       var data = Object.assign({}, kRing); 
-
       var newData = Object.keys(data).reduce(function(obj,key){
         obj[ data[key] ] = Math.random();
         return obj;
@@ -639,6 +639,7 @@ const Application = (() => {
     map.on('moveend', function(){
       if (map.getZoom() > zoomThreshold) {
         renderHexes(map, hexagons())
+
       } else {
         
       }
@@ -709,7 +710,6 @@ const Application = (() => {
       const h3Geo = h3.geoToH3(e.lngLat['lat'], e.lngLat['lng'], 12)
       // document.getElementById('c-hex-map-info').innerHTML = h3Geo + ' = ' +  JSON.stringify(e.lngLat) 
       document.getElementById('c-hex-map-info').innerHTML = 'OVRLandID = ' + form_h3_to_words(h3Geo)[0] + "." + form_h3_to_words(h3Geo)[1] + "." + form_h3_to_words(h3Geo)[2] 
-      console.log(h3Geo)
 
       // console.log(h3.h3ToGeoBoundary(h3Geo));
     });
@@ -718,19 +718,51 @@ const Application = (() => {
 
   const bountyMapInit = () => {
     if (document.getElementById('c-bounty-hex-map')){
+      var data = { 
+      name : "order_by", 
+      value : "total_discovered_land", 
+      }; 
+
+      reqwest({
+        url: 'https://qn74rcvssl.execute-api.eu-central-1.amazonaws.com/api/charts'
+        , method: 'POST'
+        , type: 'json'
+        , contentType: 'application/json'
+        , crossOrigin: true
+        , withCredential: true
+        , data: JSON.stringify(data)
+        , dataType: "json"
+        , success: function (resp) {
+          console.log(resp['users']);
+
+          each(resp['users'], function(index, user){
+           
+            var html_node = '<tr>'
+            html_node += '<td>' + user['first_name']+ " " + user['last_name'] + '</td>'
+            html_node += '<td>' + user['total_discovered_land'] + '</td>'
+            html_node += '<td>' + user['total_token'] + '</td>'
+            html_node += '</tr>'
+            document.getElementById("c-bounty--chart_table").insertAdjacentHTML('beforeend',html_node)
+          })
+          // c - bounty--chart_table
+          }
+      })
+
       const hexagons = () => {
         var center = map.getCenter()
         //console.log (center)
         const centerHex = h3.geoToH3(center['lat'], center['lng'], 12)
         const kRing = h3.kRing(centerHex, 40)
 
-
+        console.log('kRing', kRing)
         var data = Object.assign({}, kRing); 
+        // console.log('data', data)
 
         var newData = Object.keys(data).reduce(function(obj,key){
           obj[ data[key] ] = Math.random();
           return obj;
         },{});
+        // console.log('newData', newData)
         return newData;
       }
 
@@ -755,7 +787,111 @@ const Application = (() => {
       map.addControl(geocoder);
 
       map.on('load', () => {
-        // renderHexes(map, hexagons())
+        
+        reqwest({
+          url: 'https://qn74rcvssl.execute-api.eu-central-1.amazonaws.com/api/geojson_bounty_multipoints'
+          , method: 'GET'
+          , contentType: 'application/json'
+          , crossOrigin: true
+          , withCredential: true
+          , dataType: "json"
+          , success: function (resp) {
+
+              map.addSource("bountycluster", {
+                  type: "geojson",
+                  // Point to GeoJSON data. This example visualizes all M1.0+ bountycluster
+                  // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
+                  data: resp,
+                  cluster: true,
+                  clusterMaxZoom: 18, // Max zoom to cluster points on
+                  clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+              });
+
+              map.addLayer({
+                  id: "clusters",
+                  type: "circle",
+                  source: "bountycluster",
+                  filter: ["has", "point_count"],
+                  paint: {
+                      // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+                      // with three steps to implement three types of circles:
+                      //   * Blue, 20px circles when point count is less than 100
+                      //   * Yellow, 30px circles when point count is between 100 and 750
+                      //   * Pink, 40px circles when point count is greater than or equal to 750
+                      "circle-color": [
+                          "step",
+                          ["get", "point_count"],
+                          "#006494",
+                          100,
+                          "#44355D",
+                          750,
+                          "#1a0731"
+                      ],
+                      "circle-radius": [
+                          "step",
+                          ["get", "point_count"],
+                          20,
+                          100,
+                          30,
+                          750,
+                          40
+                      ]
+                  }
+              });
+
+              map.addLayer({
+                  id: "cluster-count",
+                  type: "symbol",
+                  source: "bountycluster",
+                  filter: ["has", "point_count"],
+                  layout: {
+                      "text-field": "{point_count_abbreviated}",
+                      "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+                      "text-size": 12,
+                  },
+                  paint: {
+                    "text-color": "#ffffff"
+                  }
+              });
+
+              map.addLayer({
+                  id: "unclustered-point",
+                  type: "circle",
+                  source: "bountycluster",
+                  filter: ["!", ["has", "point_count"]],
+                  paint: {
+                      "circle-color": "#11b4da",
+                      "circle-radius": 4,
+                      "circle-stroke-width": 1,
+                      "circle-stroke-color": "#fff"
+                  }
+              });
+
+              // inspect a cluster on click
+              map.on('click', 'clusters', function (e) {
+                  var features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+                  var clusterId = features[0].properties.cluster_id;
+                  map.getSource('bountycluster').getClusterExpansionZoom(clusterId, function (err, zoom) {
+                      if (err)
+                          return;
+
+                      map.easeTo({
+                          center: features[0].geometry.coordinates,
+                          zoom: zoom
+                      });
+                  });
+              });
+
+              map.on('mouseenter', 'clusters', function () {
+                  map.getCanvas().style.cursor = 'pointer';
+              });
+              map.on('mouseleave', 'clusters', function () {
+                  map.getCanvas().style.cursor = '';
+              });
+            }
+        })
+
+        
         geocoder.on('result', function(ev) {
 
           map.flyTo({
@@ -796,6 +932,80 @@ const Application = (() => {
       map.on('moveend', function(){
         if (map.getZoom() > zoomThreshold) {
           renderHexes(map, hexagons())
+
+          reqwest({
+            url: 'https://qn74rcvssl.execute-api.eu-central-1.amazonaws.com/api/geojson_bounty_neighbours'
+            , method: 'POST'
+            , type: 'json'
+            , contentType: 'application/json'
+            , crossOrigin: true
+            , withCredential: true
+            , data: JSON.stringify({ "hex_list": hexagons()})
+            , dataType: "json"
+            , success: function (resp) {
+              // console.log("undiscovered", resp['undiscovered']);
+              // console.log("discovered", resp['discovered']);
+
+              const disc_sourceId = 'h3-hexes_discovered'
+              const disc_layerId = `${disc_sourceId}-layer`
+              let disc_source = map.getSource(disc_sourceId)
+
+              if (!disc_source) {
+                 map.addSource(disc_sourceId, {
+                   type: 'geojson',
+                   data: resp['discovered'],
+                 })
+                 map.addLayer({
+                   id: disc_layerId,
+                   source: disc_sourceId,
+                   type: 'fill',
+                   interactive: false,
+                   paint: {
+                     'fill-outline-color': 'rgba(255,255,255,0)',
+                     'fill-color': '#ffd700',
+                     'fill-opacity': 0.8
+                   },
+                 })
+                disc_source = map.getSource(disc_sourceId)
+               }
+
+               // Update the resp['discovered'] data
+              disc_source.setData(resp['discovered'])
+
+              map.setLayoutProperty(disc_layerId, 'visibility', 'visible');
+
+
+              // UNDISCOVERED
+              const undisc_sourceId = 'h3-hexes_undiscovered'
+              const undisc_layerId = `${undisc_sourceId}-layer`
+              let undisc_source = map.getSource(undisc_sourceId)
+
+              if (!undisc_source) {
+                 map.addSource(undisc_sourceId, {
+                   type: 'geojson',
+                   data: resp['undiscovered'],
+                 })
+                 map.addLayer({
+                   id: undisc_layerId,
+                   source: undisc_sourceId,
+                   type: 'fill',
+                   interactive: false,
+                   paint: {
+                     'fill-color': 'rgba(255,215,0,0.2)',
+                     'fill-opacity': 0.5,
+                     'fill-outline-color': 'rgba(255,215,0,1)',
+                   },
+                 })
+                undisc_source = map.getSource(undisc_sourceId)
+               }
+
+               // Update the resp['discovered'] data
+              undisc_source.setData(resp['undiscovered'])
+
+              map.setLayoutProperty(undisc_layerId, 'visibility', 'visible');
+              }
+          })
+
         } else {
 
         }
